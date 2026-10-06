@@ -1,6 +1,5 @@
 import os
-import requests
-import json
+import httpx
 
 token = os.environ.get("GITHUB_TOKEN")
 headers = {
@@ -8,15 +7,15 @@ headers = {
     "Accept": "application/vnd.github.v3+json"
 }
 
-r_prs = requests.get("https://api.github.com/repos/ausyeah/PaperAgent/pulls?state=all", headers=headers)
-if r_prs.status_code == 200:
-    prs = r_prs.json()
-    print(f"Total Pull Requests on GitHub: {len(prs)}\n")
-    for pr in prs:
-        print(f"PR #{pr['number']}: {pr['title']} [{pr['state'].upper()}]")
-        print(f"   Author : {pr['user']['login']}")
-        print(f"   Branch : {pr['head']['ref']} -> {pr['base']['ref']}")
-        print(f"   URL    : {pr['html_url']}")
-        print("-" * 60)
-else:
-    print("Error:", r_prs.status_code, r_prs.text)
+with httpx.Client(timeout=10.0) as client:
+    r_prs = client.get("https://api.github.com/repos/ausyeah/PaperAgent/pulls?state=all", headers=headers)
+    if r_prs.status_code == 200:
+        prs = r_prs.json()
+        print(f"Total Pull Requests on GitHub: {len(prs)}\n", flush=True)
+        for pr in prs:
+            print(f"PR #{pr['number']}: {pr['title']} [{pr['state'].upper()}]", flush=True)
+            print(f"   Branch : {pr['head']['ref']} -> {pr['base']['ref']}", flush=True)
+            print(f"   URL    : {pr['html_url']}", flush=True)
+            print("-" * 60, flush=True)
+    else:
+        print("Error:", r_prs.status_code, r_prs.text, flush=True)

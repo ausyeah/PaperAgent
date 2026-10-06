@@ -16,7 +16,7 @@ class StreamingSandboxRunner:
         start_time = time.time()
         yield {"event": "start", "timestamp": start_time}
 
-        with tempfile.TemporaryDirectory() as temp_dir_str:
+        with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as temp_dir_str:
             temp_dir = Path(temp_dir_str)
             target_file = temp_dir / "run_target.py"
             target_file.write_text(code, encoding="utf-8")
@@ -84,8 +84,10 @@ class StreamingSandboxRunner:
                 if process.returncode is None:
                     try:
                         process.kill()
-                    except ProcessLookupError:
+                        await process.wait()
+                    except (ProcessLookupError, Exception):
                         pass
 
                 stdout_task.cancel()
                 stderr_task.cancel()
+

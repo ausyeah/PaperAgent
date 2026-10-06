@@ -5,7 +5,8 @@ import requests
 JULES_API_KEY = os.environ.get("JULES_API_KEY")
 HEADERS = {"x-goog-api-key": JULES_API_KEY}
 
-with open(".jules/active_sessions.json", "r", encoding="utf-8") as f:
+file_path = ".jules/active_sessions_v2.json" if os.path.exists(".jules/active_sessions_v2.json") else ".jules/active_sessions.json"
+with open(file_path, "r", encoding="utf-8") as f:
     tasks = json.load(f)
 
 for t in tasks:
