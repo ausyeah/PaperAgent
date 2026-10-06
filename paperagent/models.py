@@ -388,3 +388,142 @@ class DailyDigestReport(BaseModel):
     executive_briefing: str = ""
 
 
+# ============================================================================
+# v0.5.0 Autonomous AI Research Co-Pilot & Kernel Schemas
+# ============================================================================
+
+class TritonKernelResult(BaseModel):
+    """Synthesized GPU Triton kernel implementation."""
+    kernel_name: str
+    triton_code: str
+    benchmark_harness_code: str
+    speedup_vs_eager: str = "2.1x"
+
+
+class IndividualReview(BaseModel):
+    """Review from an individual committee member."""
+    reviewer_id: str
+    persona: str = Field(..., description="e.g. 'Reviewer 1 (Theory Expert)'")
+    score: int = Field(default=6, ge=1, le=10)
+    strengths: List[str] = Field(default_factory=list)
+    weaknesses: List[str] = Field(default_factory=list)
+    detailed_critique: str = ""
+
+
+class CommitteeReview(BaseModel):
+    """Multi-agent conference review committee with Area Chair meta-review."""
+    paper_title: str
+    reviews: List[IndividualReview] = Field(default_factory=list)
+    meta_review: str = ""
+    final_decision: str = Field(default="Accept (Poster)", description="'Accept (Oral)', 'Accept (Poster)', 'Reject'")
+
+
+class GraphVisualizationBundle(BaseModel):
+    """Interactive D3/vis.js citation graph visualization bundle."""
+    paper_title: str
+    nodes: List[Dict[str, Any]] = Field(default_factory=list)
+    edges: List[Dict[str, Any]] = Field(default_factory=list)
+    standalone_html: str = ""
+
+
+class SyntheticDatasetFixture(BaseModel):
+    """Synthetic dataset generator fixture for algorithm verification."""
+    dataset_name: str
+    generator_code: str
+    sample_batch_summary: str = ""
+    num_samples: int = 1000
+
+
+class QuantizationBenchmarkRow(BaseModel):
+    """Quantization benchmark row."""
+    precision: str = "FP16"
+    memory_mb: float = 0.0
+    latency_ms: float = 0.0
+    relative_perplexity: float = 1.0
+
+
+class QuantizationProfile(BaseModel):
+    """Post-training precision and quantization profile."""
+    model_name: str
+    precision_rows: List[QuantizationBenchmarkRow] = Field(default_factory=list)
+    wrapper_code: str = ""
+    recommended_precision: str = "INT8 Weight-Only"
+
+
+class ReproducibilityScorecard(BaseModel):
+    """Official empirical reproducibility evaluation scorecard."""
+    paper_title: str
+    score: int = Field(default=85, ge=0, le=100)
+    criteria_checklist: Dict[str, bool] = Field(default_factory=dict)
+    verdict_level: str = "High Reproducibility"
+    improvement_recommendations: List[str] = Field(default_factory=list)
+
+
+class ExtractedTable(BaseModel):
+    """Structured table extracted from paper text/LaTeX."""
+    table_id: str
+    caption: str = ""
+    headers: List[str] = Field(default_factory=list)
+    rows: List[List[str]] = Field(default_factory=list)
+    csv_data: str = ""
+
+
+class ExtractedTableCollection(BaseModel):
+    """Collection of extracted paper tables."""
+    paper_title: str
+    tables: List[ExtractedTable] = Field(default_factory=list)
+
+
+class SyncBotBundle(BaseModel):
+    """Automated Git pull request and Overleaf sync bundle."""
+    target_repo: str
+    pr_title: str
+    pr_body: str
+    git_commands: List[str] = Field(default_factory=list)
+
+
+class DerivationStep(BaseModel):
+    """Intermediate step in mathematical derivation."""
+    step_number: int
+    latex_expression: str
+    justification: str
+
+
+class DerivationVerificationResult(BaseModel):
+    """Symbolic verification of formula derivation."""
+    formula_from_id: str
+    formula_to_id: str
+    steps: List[DerivationStep] = Field(default_factory=list)
+    is_mathematically_sound: bool = True
+    algebraic_notes: str = ""
+
+
+class SSMLPodcastBundle(BaseModel):
+    """Phonetic SSML audio podcast speech bundle."""
+    episode_title: str
+    ssml_content: str
+    tts_script_py: str
+    phonetic_glossary: Dict[str, str] = Field(default_factory=dict)
+
+
+class TopicCluster(BaseModel):
+    """Semantic topic cluster in paper library."""
+    cluster_name: str
+    keywords: List[str] = Field(default_factory=list)
+    paper_ids: List[str] = Field(default_factory=list)
+    summary: str = ""
+
+
+class TopicClusterCollection(BaseModel):
+    """Collection of semantic topic clusters."""
+    clusters: List[TopicCluster] = Field(default_factory=list)
+
+
+class InteractiveNotebookBundle(BaseModel):
+    """Interactive Jupyter notebook with sliders and widgets."""
+    notebook_json: str
+    widget_features: List[str] = Field(default_factory=list)
+    file_path: Optional[str] = None
+
+
+
