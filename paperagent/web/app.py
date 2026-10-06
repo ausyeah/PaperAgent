@@ -33,6 +33,8 @@ from paperagent.synthesizer import CodeSynthesizer
 from paperagent.runner import ExecutionSandbox
 from paperagent.export import export_markdown as core_export_markdown, export_jupyter_notebook as core_export_notebook
 
+from paperagent.web.library_routes import register_library_routes
+
 app = FastAPI(
     title="PaperAgent API",
     description="AI-powered academic paper deep-reader and algorithm-to-code synthesizer",
@@ -252,6 +254,8 @@ def export_notebook_endpoint():
         headers={"Content-Disposition": 'attachment; filename="report.ipynb"'}
     )
 
+
+register_library_routes(app)
 
 # Mount static directory if present
 static_dir = os.path.join(os.path.dirname(__file__), "static")
