@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "paperagent"
+version = "0.1.0"
+description = "AI-powered paper deep-reader, formula demystifier, and algorithm-to-code synthesizer"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "ausyeah"}
+]
+dependencies = [
+    "fastapi>=0.100.0",
+    "uvicorn>=0.22.0",
+    "pydantic>=2.0.0",
+    "httpx>=0.25.0",
+    "pypdf>=4.0.0",
+    "rich>=13.0.0",
+    "jinja2>=3.1.0",
+    "python-multipart>=0.0.6",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+]
+
+[project.scripts]
+paperagent = "paperagent.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+asyncio_mode = "auto"
