@@ -162,3 +162,93 @@ class StoredPaperRecord(BaseModel):
     summary: str = ""
     has_code: bool = False
 
+
+class CitationNode(BaseModel):
+    """Node in academic citation lineage graph."""
+    title: str
+    authors: List[str] = Field(default_factory=list)
+    year: Optional[int] = None
+    arxiv_id: Optional[str] = None
+    doi: Optional[str] = None
+    citation_count: Optional[int] = None
+    influence_role: str = Field(default="related", description="'foundation', 'baseline', 'successor', 'related'")
+
+
+class CitationGraph(BaseModel):
+    """Citation lineage and related work graph."""
+    root_paper_title: str
+    nodes: List[CitationNode] = Field(default_factory=list)
+    edges: List[Dict[str, str]] = Field(default_factory=list, description="List of {'source': title, 'target': title, 'relation': rel}")
+    lineage_summary: str = Field(default="", description="Narrative synthesis of the paper's intellectual lineage")
+
+
+class TensorDimensionCheck(BaseModel):
+    """Tensor dimension and mathematical consistency check."""
+    variable_name: str
+    expected_shape: str
+    math_symbol: str
+    is_consistent: bool = True
+    explanation: str = ""
+
+
+class FormulaVerificationReport(BaseModel):
+    """Verification of tensor shapes and invariants in mathematical formulations."""
+    formula_id: str
+    latex: str
+    dimensions: List[TensorDimensionCheck] = Field(default_factory=list)
+    invariants_passed: bool = True
+    dimension_notes: str = ""
+
+
+class ScalingMeasurement(BaseModel):
+    """Empirical scaling benchmark data point."""
+    input_scale: int
+    latency_ms: float
+    memory_peak_mb: float
+
+
+class ComplexityProfileResult(BaseModel):
+    """Algorithmic time/memory scaling analysis."""
+    algorithm_name: str
+    theoretical_complexity: str = Field(..., description="e.g. O(N^2), O(N log N)")
+    empirical_scaling: str = Field(default="", description="Observed empirical scaling behavior")
+    measurements: List[ScalingMeasurement] = Field(default_factory=list)
+    bottleneck_analysis: str = ""
+
+
+class FrameworkImplementation(BaseModel):
+    """Algorithm implementation in a specific framework."""
+    framework: str = Field(..., description="'numpy', 'pytorch', or 'jax'")
+    code: str
+    entry_function: str
+    verified: bool = False
+
+
+class MultiFrameworkCode(BaseModel):
+    """Multi-framework synthesized algorithm suite."""
+    paper_title: str
+    implementations: Dict[str, FrameworkImplementation] = Field(default_factory=dict)
+
+
+class CodeMathAlignment(BaseModel):
+    """Bidirectional mapping between synthesized code lines and LaTeX equations."""
+    function_name: str
+    code_line_range: str
+    target_formula_id: str
+    target_formula_latex: str
+    alignment_notes: str = ""
+
+
+class TraceMap(BaseModel):
+    """Complete code-to-paper mathematical tracing map."""
+    paper_title: str
+    alignments: List[CodeMathAlignment] = Field(default_factory=list)
+
+
+class SlideDeck(BaseModel):
+    """Presentation slide deck generated from paper insights."""
+    title: str
+    author: str = "PaperAgent AI"
+    marp_markdown: str
+    slide_count: int
+

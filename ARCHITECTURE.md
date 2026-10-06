@@ -124,6 +124,42 @@ PaperAgent takes academic papers (from ArXiv IDs, URLs, or local PDFs), decompos
   - `paperagent/health.py`: Health check and system diagnostic endpoint (`/healthz`).
   - `Dockerfile` & `docker-compose.yml`: Containerized production deployment.
 
+### 2.14 Module 14: `paperagent.parser.citation_graph` (v0.3.0)
+* **File Structure:**
+  - `paperagent/parser/citation_graph.py`: Crawls and models paper bibliographies into `CitationGraph` with node roles (foundation, baseline, successor).
+
+### 2.15 Module 15: `paperagent.engine.formula_checker` (v0.3.0)
+* **File Structure:**
+  - `paperagent/engine/formula_checker.py`: Symbolically validates tensor dimension invariants and mathematical consistency, returning `FormulaVerificationReport`.
+
+### 2.16 Module 16: `paperagent.synthesizer.profiler` (v0.3.0)
+* **File Structure:**
+  - `paperagent/synthesizer/profiler.py`: Automated algorithmic benchmark harness profiling execution time and peak memory across input scales, returning `ComplexityProfileResult`.
+
+### 2.17 Module 17: `paperagent.synthesizer.transpiler` (v0.3.0)
+* **File Structure:**
+  - `paperagent/synthesizer/transpiler.py`: Synthesizes multi-framework algorithm implementations across NumPy, PyTorch (`nn.Module`), and JAX, returning `MultiFrameworkCode`.
+
+### 2.18 Module 18: `paperagent.engine.code_aligner` (v0.3.0)
+* **File Structure:**
+  - `paperagent/engine/code_aligner.py`: Bidirectionally traces synthesized Python functions to specific paper formulas and section numbers, returning `TraceMap`.
+
+### 2.19 Module 19: `paperagent.storage.vector_index` (v0.3.0)
+* **File Structure:**
+  - `paperagent/storage/vector_index.py`: Local TF-IDF / BM25 hybrid semantic search index over stored paper libraries.
+
+### 2.20 Module 20: `paperagent.export.slides` (v0.3.0)
+* **File Structure:**
+  - `paperagent/export/slides.py`: Generates formatted Marp / Reveal.js markdown presentation slide decks (`SlideDeck`).
+
+### 2.21 Module 21: `paperagent.export.ci_action` (v0.3.0)
+* **File Structure:**
+  - `paperagent/export/ci_action.py`: Generates standalone GitHub Actions continuous paper algorithm verification workflows.
+
+### 2.22 Module 22: `paperagent.tui` (v0.3.0)
+* **File Structure:**
+  - `paperagent/tui.py`: Interactive full-screen terminal UI powered by Rich.
+
 ---
 
 ## 3. Data Flow & Shared Contracts
@@ -137,4 +173,5 @@ All modules share data models defined in `paperagent/models.py`.
 - All unit tests live in `tests/`.
 - Every subpackage should have dedicated test coverage.
 - Run tests via `pytest -v`.
+
 
