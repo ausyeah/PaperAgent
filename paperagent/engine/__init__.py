@@ -29,9 +29,12 @@ def analyze_paper(paper: ParsedPaper, llm_client: LLMClient = None) -> AnalysisR
     analyzer = PaperAnalyzer(llm_client=llm_client)
     return analyzer.analyze(paper)
 
+from paperagent.engine.formula_checker import FormulaDimensionChecker
+
 __all__ = [
     "PaperAnalyzer",
     "PaperComparator",
+    "FormulaDimensionChecker",
     "analyze_paper",
     "EXECUTIVE_SUMMARY_PROMPT",
     "FORMULA_EXPLAINER_PROMPT",
