@@ -1,5 +1,12 @@
 from .markdown import export_markdown
 from .notebook import export_jupyter_notebook
 from .bibtex import generate_bibtex
+from .latex import generate_latex_source, export_latex_bundle
 
-__all__ = ["export_markdown", "export_jupyter_notebook", "generate_bibtex"]
+__all__ = [
+    "export_markdown",
+    "export_jupyter_notebook",
+    "generate_bibtex",
+    "generate_latex_source",
+    "export_latex_bundle"
+]
