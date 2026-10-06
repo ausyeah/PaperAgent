@@ -776,6 +776,223 @@ class ExperimentMatrixResult(BaseModel):
     ascii_summary: str = ""
 
 
+# ==========================================
+# Sprint v0.7.0 Data Models
+# ==========================================
+
+class CitationNode(BaseModel):
+    """A node in the paper citation graph."""
+    id: str
+    title: str
+    authors: List[str] = Field(default_factory=list)
+    year: Optional[int] = None
+    citation_count: int = 0
+    pagerank_score: float = 0.0
+    role: str = "foundation"  # 'foundation', 'baseline', 'contemporary', 'benchmark'
+
+
+class CitationEdge(BaseModel):
+    """A directed edge in the citation graph."""
+    source_id: str
+    target_id: str
+    sentiment: str = "neutral"  # 'supportive', 'critical', 'background', 'comparison'
+    context_snippet: str = ""
+
+
+class CitationNetworkMap(BaseModel):
+    """Citation cartography graph with PageRank and centrality analysis."""
+    nodes: List[CitationNode] = Field(default_factory=list)
+    edges: List[CitationEdge] = Field(default_factory=list)
+    top_authorities: List[str] = Field(default_factory=list)
+    network_summary: str = ""
+
+
+class SupplementaryFileItem(BaseModel):
+    """An individual artifact from paper supplementary bundle."""
+    filename: str
+    file_type: str  # 'code', 'data', 'appendix_pdf', 'config', 'log'
+    size_bytes: int = 0
+    description: str = ""
+    content_snippet: str = ""
+
+
+class SupplementaryArtifactBundle(BaseModel):
+    """Extracted supplementary artifacts from zip/tar or appendix."""
+    source_path: str
+    files: List[SupplementaryFileItem] = Field(default_factory=list)
+    appendix_proofs: List[str] = Field(default_factory=list)
+    hyperparameter_tables: List[Dict[str, Any]] = Field(default_factory=list)
+
+
+class CUDAGraphProfileResult(BaseModel):
+    """CUDA Graph optimization profile and synthesis result."""
+    model_name: str
+    cuda_graph_wrapper_py: str
+    eager_latency_ms: float = 0.0
+    cuda_graph_latency_ms: float = 0.0
+    speedup_ratio: float = 1.0
+    memory_savings_mb: float = 0.0
+
+
+class ReviewRoundMessage(BaseModel):
+    """Single debate turn in multi-round synthetic peer review."""
+    round_number: int
+    sender: str  # 'reviewer_1', 'reviewer_2', 'author', 'area_chair'
+    message: str
+    score_update: Optional[int] = None
+
+
+class MultiRoundReviewDebate(BaseModel):
+    """Full multi-round synthetic peer review and rebuttal transcript."""
+    paper_title: str
+    rounds: List[ReviewRoundMessage] = Field(default_factory=list)
+    final_verdict: str = "Accept"
+    final_consensus_score: float = 7.0
+    key_concessions: List[str] = Field(default_factory=list)
+
+
+class PruningDistillationPlan(BaseModel):
+    """Knowledge distillation and weight pruning synthesis bundle."""
+    teacher_model_name: str
+    student_model_name: str
+    distillation_loss_fn_py: str
+    pruning_schedule_py: str
+    target_sparsity: float = 0.5
+    estimated_speedup: float = 1.8
+
+
+class GradioSpacesDemoBundle(BaseModel):
+    """Standalone HuggingFace Spaces Gradio interactive app."""
+    app_py: str
+    requirements_txt: str
+    readme_md: str
+    demo_title: str
+    supported_tasks: List[str] = Field(default_factory=list)
+
+
+class SafetyAuditFinding(BaseModel):
+    """An individual safety or ethical risk finding."""
+    category: str  # 'hallucination', 'adversarial_robustness', 'bias', 'carbon_footprint'
+    severity: str  # 'Low', 'Medium', 'High', 'Critical'
+    description: str
+    mitigation_strategy: str
+
+
+class SafetyAuditReport(BaseModel):
+    """Comprehensive safety, robustness, and carbon emission audit."""
+    paper_title: str
+    overall_safety_rating: str = "A"  # A, B, C, D, F
+    estimated_co2_kg: float = 0.0
+    findings: List[SafetyAuditFinding] = Field(default_factory=list)
+    audit_summary: str = ""
+
+
+class VLLMServingConfigBundle(BaseModel):
+    """High-throughput vLLM / TensorRT-LLM serving configuration."""
+    model_name: str
+    server_launch_command: str
+    vllm_config_json: str
+    paged_attention_block_size: int = 16
+    max_num_seqs: int = 256
+    prefix_caching_enabled: bool = True
+
+
+class KGEntity(BaseModel):
+    """Entity node in academic knowledge graph."""
+    id: str
+    name: str
+    entity_type: str  # 'Architecture', 'Mechanism', 'Dataset', 'Benchmark', 'LossFunction'
+    description: str = ""
+
+
+class KGRelation(BaseModel):
+    """Relational edge in academic knowledge graph."""
+    source_entity: str
+    target_entity: str
+    relation_type: str  # 'improves_upon', 'utilizes', 'evaluates_on', 'variant_of'
+
+
+class AcademicKnowledgeGraph(BaseModel):
+    """Multi-paper cross-concept knowledge graph."""
+    entities: List[KGEntity] = Field(default_factory=list)
+    relations: List[KGRelation] = Field(default_factory=list)
+    graph_density: float = 0.0
+
+
+class Lean4TheoremProof(BaseModel):
+    """Formal mathematical verification skeleton in Lean 4."""
+    theorem_name: str
+    latex_original: str
+    lean4_formal_statement: str
+    proof_skeleton: str
+    verification_status: str = "Unverified Skeleton"
+
+
+class TelemetryMetricPoint(BaseModel):
+    """Single point in runtime telemetry stream."""
+    step: int
+    epoch: Optional[int] = None
+    loss: float
+    learning_rate: float
+    throughput_samples_sec: float
+    vram_used_mb: float
+
+
+class TrainingTelemetrySnapshot(BaseModel):
+    """Telemetry stream snapshot and summary."""
+    run_id: str
+    points: List[TelemetryMetricPoint] = Field(default_factory=list)
+    average_throughput: float = 0.0
+    peak_vram_mb: float = 0.0
+    convergence_status: str = "CONVERGING"
+
+
+class ASTNode(BaseModel):
+    """Standardized pseudocode abstract syntax tree node."""
+    node_id: str
+    node_type: str  # 'Assignment', 'ForLoop', 'WhileLoop', 'Condition', 'Call', 'Return'
+    expression: str
+    children: List[str] = Field(default_factory=list)
+
+
+class NormalizedPseudocodeAST(BaseModel):
+    """Normalized AST representation of paper pseudocode."""
+    algorithm_name: str
+    nodes: List[ASTNode] = Field(default_factory=list)
+    synthesized_python_stub: str = ""
+
+
+class RevealJSSlide(BaseModel):
+    """Single slide in Reveal.js deck."""
+    slide_number: int
+    title: str
+    content_html: str
+    speaker_notes: str = ""
+
+
+class RevealJSPresentationDeck(BaseModel):
+    """Standalone Reveal.js presentation deck."""
+    paper_title: str
+    slides: List[RevealJSSlide] = Field(default_factory=list)
+    standalone_html: str = ""
+
+
+class ParadigmShiftMilestone(BaseModel):
+    """Milestone in concept evolution trajectory."""
+    year: int
+    paper_title: str
+    breakthrough_concept: str
+    impact_description: str
+
+
+class ConceptEvolutionTrajectory(BaseModel):
+    """Historical timeline and paradigm shift trajectory of research concepts."""
+    concept_name: str
+    milestones: List[ParadigmShiftMilestone] = Field(default_factory=list)
+    trajectory_narrative: str = ""
+
+
+
 
 
 
