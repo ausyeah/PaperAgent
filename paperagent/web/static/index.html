@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaperAgent - Web Dashboard</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --panel-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --warning: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--panel-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            width: 300px;
+            font-size: 0.875rem;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        button:disabled {
+            background-color: var(--text-muted);
+            cursor: not-allowed;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Main Content - Dual Pane */
+        main {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .pane {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background-color: var(--panel-bg);
+        }
+
+        .left-pane {
+            border-right: 1px solid var(--border-color);
+        }
+
+        .pane-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #f1f5f9;
+            font-weight: 600;
+        }
+
+        .pane-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        /* Paper View Styles */
+        .paper-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .paper-authors {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+        .paper-abstract {
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        .section-nav {
+            margin-bottom: 1rem;
+        }
+        .section-nav summary {
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+        }
+        .section-nav ul {
+            list-style-type: none;
+            padding-left: 1rem;
+        }
+
+        /* Workstation Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #f1f5f9;
+        }
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            background-color: var(--panel-bg);
+        }
+
+        .tab-content {
+            display: none;
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Analysis Styles */
+        .score-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            color: white;
+            background-color: var(--success);
+            margin-bottom: 1rem;
+        }
+        .critique-section {
+            margin-bottom: 1.5rem;
+        }
+        .critique-section h4 {
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+        .critique-section ul {
+            padding-left: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        /* Code Editor Styles */
+        .code-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        textarea.code-editor {
+            flex: 1;
+            width: 100%;
+            font-family: monospace;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            resize: none;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            margin-bottom: 1rem;
+        }
+        .console-output {
+            height: 150px;
+            background-color: #000;
+            color: #0f0;
+            font-family: monospace;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+
+        .loader {
+            display: none;
+            margin-left: 10px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">📚 PaperAgent</div>
+        <div class="input-group">
+            <input type="text" id="sourceInput" placeholder="ArXiv ID, URL, or Path">
+            <button id="btnParse" onclick="parsePaper()">Parse</button>
+            <div id="mainLoader" class="loader"></div>
+        </div>
+        <div class="actions">
+            <button id="btnAnalyze" onclick="analyzePaper()" disabled>Deep Analyze</button>
+            <button id="btnSynthesize" onclick="synthesizeCode()" disabled>Synthesize Code</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Left Pane: Paper View -->
+        <div class="pane left-pane">
+            <div class="pane-header">Paper View</div>
+            <div class="pane-content" id="paperContent">
+                <p style="color: var(--text-muted); text-align: center; margin-top: 2rem;">
+                    Enter a source and click Parse to load paper details.
+                </p>
+            </div>
+            <div class="pane-header" style="border-top: 1px solid var(--border-color)">Formula Gallery</div>
+            <div class="pane-content" id="formulaGalleryContent" style="flex: 0.5;">
+                <p style="color: var(--text-muted); text-align: center; margin-top: 2rem;">
+                    Run Deep Analyze to view extracted formulas here.
+                </p>
+            </div>
+        </div>
+
+        <!-- Right Pane: Workstation -->
+        <div class="pane right-pane">
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('tab-analysis', this)">Analysis</div>
+                <div class="tab" onclick="switchTab('tab-formulas', this)">Formulas</div>
+                <div class="tab" onclick="switchTab('tab-code', this)">Code & Execution</div>
+            </div>
+
+            <!-- Tab 1: Analysis -->
+            <div id="tab-analysis" class="tab-content active">
+                <div id="analysisContent">
+                    <p style="color: var(--text-muted); text-align: center; margin-top: 2rem;">
+                        Run Deep Analyze to view insights.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tab 2: Formulas -->
+            <div id="tab-formulas" class="tab-content">
+                <div id="formulaContent">
+                    <p style="color: var(--text-muted); text-align: center; margin-top: 2rem;">
+                        Run Deep Analyze to view formula explanations.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tab 3: Code Editor -->
+            <div id="tab-code" class="tab-content">
+                <div class="code-container">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <h4 style="margin: 0;">Synthesized Code</h4>
+                        <button id="btnRunCode" onclick="runCode()" disabled style="padding: 0.25rem 0.75rem;">Run Code</button>
+                    </div>
+                    <textarea id="codeEditor" class="code-editor" placeholder="Synthesize code to edit here..."></textarea>
+
+                    <h4 style="margin-bottom: 0.5rem;">Live Console</h4>
+                    <div id="consoleOutput" class="console-output">Waiting for execution...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const API_BASE = 'http://localhost:8000/api/paper';
+        let currentPaper = null;
+
+        function showLoader(show) {
+            document.getElementById('mainLoader').style.display = show ? 'inline-block' : 'none';
+        }
+
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+            element.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        async function parsePaper() {
+            const source = document.getElementById('sourceInput').value;
+            if (!source) {
+                alert("Please enter a source.");
+                return;
+            }
+
+            showLoader(true);
+            try {
+                const formData = new FormData();
+                formData.append('source', source);
+
+                const response = await fetch(`${API_BASE}/parse`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) throw new Error("Parse failed");
+
+                currentPaper = await response.json();
+                renderPaper(currentPaper);
+
+                document.getElementById('btnAnalyze').disabled = false;
+                document.getElementById('btnSynthesize').disabled = false;
+            } catch (err) {
+                alert("Error: " + err.message);
+            } finally {
+                showLoader(false);
+            }
+        }
+
+        function renderPaper(paper) {
+            const html = `
+                <h1 class="paper-title">${paper.metadata.title}</h1>
+                <div class="paper-authors">${paper.metadata.authors.join(', ')}</div>
+                <div class="paper-abstract"><strong>Abstract:</strong><br>${paper.metadata.abstract}</div>
+
+                <details class="section-nav" open>
+                    <summary>Sections</summary>
+                    <ul>
+                        ${paper.sections.map(s => `<li>${s.title}</li>`).join('')}
+                    </ul>
+                </details>
+            `;
+            document.getElementById('paperContent').innerHTML = html;
+        }
+
+        async function analyzePaper() {
+            if (!currentPaper) return;
+
+            showLoader(true);
+            try {
+                const response = await fetch(`${API_BASE}/analyze`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(currentPaper)
+                });
+
+                if (!response.ok) throw new Error("Analysis failed");
+
+                const report = await response.json();
+                renderAnalysis(report);
+                renderFormulas(report);
+            } catch (err) {
+                alert("Error: " + err.message);
+            } finally {
+                showLoader(false);
+            }
+        }
+
+        function renderAnalysis(report) {
+            const scoreColor = report.reviewer_critique.score >= 7 ? 'var(--success)' :
+                               report.reviewer_critique.score >= 4 ? 'var(--warning)' : 'var(--danger)';
+
+            const html = `
+                <h3>Executive Brief</h3>
+                <p><strong>Summary:</strong> ${report.executive_summary}</p>
+                <p><strong>Core Problem:</strong> ${report.core_problem}</p>
+                <p><strong>Innovation:</strong> ${report.key_innovation}</p>
+
+                <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid var(--border-color);">
+
+                <h3>Reviewer Critique</h3>
+                <div class="score-badge" style="background-color: ${scoreColor}">Score: ${report.reviewer_critique.score}/10</div>
+
+                <div class="critique-section">
+                    <h4>Strengths</h4>
+                    <ul>${report.reviewer_critique.strengths.map(s => `<li>${s}</li>`).join('')}</ul>
+                </div>
+                <div class="critique-section">
+                    <h4>Weaknesses</h4>
+                    <ul>${report.reviewer_critique.weaknesses.map(s => `<li>${s}</li>`).join('')}</ul>
+                </div>
+            `;
+            document.getElementById('analysisContent').innerHTML = html;
+            switchTab('tab-analysis', document.querySelector('.tabs .tab:nth-child(1)'));
+        }
+
+        function renderFormulas(report) {
+            if (!report.formula_explanations.length) {
+                document.getElementById('formulaContent').innerHTML = '<p>No formulas extracted.</p>';
+                document.getElementById('formulaGalleryContent').innerHTML = '<p style="color: var(--text-muted); text-align: center; margin-top: 2rem;">No formulas found.</p>';
+                return;
+            }
+
+            const galleryHtml = report.formula_explanations.map(f => `
+                <div style="margin-bottom: 1rem; padding: 0.75rem; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 0.375rem;">
+                    <code style="display: block; text-align: center; font-size: 1.1rem; color: var(--primary);">${f.latex}</code>
+                </div>
+            `).join('');
+            document.getElementById('formulaGalleryContent').innerHTML = galleryHtml;
+
+            const html = report.formula_explanations.map(f => `
+                <div style="margin-bottom: 2rem; padding: 1rem; border: 1px solid var(--border-color); border-radius: 0.375rem;">
+                    <code>${f.latex}</code>
+                    <h4 style="margin-top: 1rem;">Intuition</h4>
+                    <p>${f.intuitive_intuition}</p>
+                    <h4 style="margin-top: 1rem;">Glossary</h4>
+                    <ul>
+                        ${Object.entries(f.variable_glossary).map(([k,v]) => `<li><strong>${k}</strong>: ${v}</li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
+            document.getElementById('formulaContent').innerHTML = html;
+        }
+
+        async function synthesizeCode() {
+            if (!currentPaper) return;
+
+            showLoader(true);
+            try {
+                const response = await fetch(`${API_BASE}/synthesize`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(currentPaper)
+                });
+
+                if (!response.ok) throw new Error("Synthesis failed");
+
+                const result = await response.json();
+
+                // Combine target code and test code for editor
+                const fullCode = result.target_module_code + "\n\n" + result.test_suite_code + "\n\n" + (result.toy_benchmark_code || '');
+                document.getElementById('codeEditor').value = fullCode;
+                document.getElementById('btnRunCode').disabled = false;
+
+                switchTab('tab-code', document.querySelector('.tabs .tab:nth-child(3)'));
+            } catch (err) {
+                alert("Error: " + err.message);
+            } finally {
+                showLoader(false);
+            }
+        }
+
+        async function runCode() {
+            const code = document.getElementById('codeEditor').value;
+            if (!code) return;
+
+            const consoleOut = document.getElementById('consoleOutput');
+            consoleOut.textContent = "Executing...\n";
+            document.getElementById('btnRunCode').disabled = true;
+
+            try {
+                const response = await fetch(`${API_BASE}/execute`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: code })
+                });
+
+                if (!response.ok) throw new Error("Execution request failed");
+
+                const result = await response.json();
+
+                let output = `[Exit Code: ${result.exit_code}] [Time: ${result.execution_time_seconds.toFixed(2)}s]\n`;
+                if (result.stdout) output += `\nSTDOUT:\n${result.stdout}`;
+                if (result.stderr) output += `\nSTDERR:\n${result.stderr}`;
+
+                consoleOut.textContent = output;
+                consoleOut.style.color = result.success ? '#0f0' : '#f00';
+
+            } catch (err) {
+                consoleOut.textContent = "Error: " + err.message;
+                consoleOut.style.color = '#f00';
+            } finally {
+                document.getElementById('btnRunCode').disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
