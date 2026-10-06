@@ -111,3 +111,54 @@ class PaperProject(BaseModel):
     paper: ParsedPaper
     analysis: Optional[AnalysisReport] = Field(default=None)
     synthesis: Optional[SynthesisResult] = Field(default=None)
+
+
+class ComparisonDimension(BaseModel):
+    """A dimension comparing two or more papers."""
+    name: str = Field(..., description="Comparison dimension (e.g. Time Complexity, Memory, Convergence)")
+    paper_a_value: str = Field(..., description="Value/approach in Paper A")
+    paper_b_value: str = Field(..., description="Value/approach in Paper B")
+    comparative_analysis: str = Field(..., description="Key difference and trade-off")
+
+
+class ComparisonMatrix(BaseModel):
+    """Structured head-to-head comparison between two papers."""
+    paper_a_title: str
+    paper_b_title: str
+    dimensions: List[ComparisonDimension] = Field(default_factory=list)
+    trade_off_summary: str = Field(..., description="Summary of fundamental engineering trade-offs")
+    recommended_choice: str = Field(..., description="When to choose Paper A vs Paper B")
+
+
+class OpenReviewReport(BaseModel):
+    """Official OpenReview (NeurIPS/ICLR) format peer review."""
+    paper_title: str
+    summary_of_work: str = Field(..., description="Objective summary of the paper's key claims")
+    strengths: List[str] = Field(default_factory=list)
+    weaknesses: List[str] = Field(default_factory=list)
+    questions_for_authors: List[str] = Field(default_factory=list)
+    soundness_score: int = Field(default=3, ge=1, le=4, description="1=Poor, 2=Fair, 3=Good, 4=Excellent")
+    presentation_score: int = Field(default=3, ge=1, le=4, description="1=Poor, 2=Fair, 3=Good, 4=Excellent")
+    contribution_score: int = Field(default=3, ge=1, le=4, description="1=Poor, 2=Fair, 3=Good, 4=Excellent")
+    overall_recommendation: int = Field(default=6, ge=1, le=10, description="1-10 overall score")
+    reproducibility_checklist_passed: bool = Field(default=True)
+
+
+class DiagramArtifact(BaseModel):
+    """Architecture or benchmark diagram artifact."""
+    diagram_type: str = Field(..., description="'mermaid' or 'matplotlib'")
+    title: str = Field(..., description="Diagram title")
+    source_code: str = Field(..., description="Mermaid string or Python matplotlib script")
+    artifact_path: Optional[str] = Field(default=None, description="Path to rendered image file if available")
+
+
+class StoredPaperRecord(BaseModel):
+    """Lightweight metadata record for persistent storage."""
+    id: str
+    title: str
+    arxiv_id: Optional[str] = None
+    created_at: str
+    tags: List[str] = Field(default_factory=list)
+    summary: str = ""
+    has_code: bool = False
+

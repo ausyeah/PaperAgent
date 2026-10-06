@@ -86,6 +86,44 @@ PaperAgent takes academic papers (from ArXiv IDs, URLs, or local PDFs), decompos
     - `GET /api/paper/export`: Downloads full report (Markdown or Jupyter Notebook).
   - `paperagent/web/static/`: Sleek, standalone single-page application with responsive split-screen layout (left: Paper view, right: AI analysis, formula cards, code editor, live console output).
 
+### 2.5 Module 5: `paperagent.storage` (v0.2.0)
+* **File Structure:**
+  - `paperagent/storage/db.py`: SQLite-backed persistent repository for papers, analysis reports, and code syntheses. Exposes `PaperStorage` with CRUD operations (`save_paper`, `get_paper`, `list_papers`, `search_papers`, `delete_paper`).
+  - `paperagent/storage/__init__.py`: Package entrypoint exporting `PaperStorage`.
+
+### 2.6 Module 6: `paperagent.parser.arxiv_html` (v0.2.0)
+* **File Structure:**
+  - `paperagent/parser/arxiv_html.py`: High-fidelity ArXiv experimental HTML parser. Extracts pristine MathML/LaTeX equations and algorithm blocks directly from `https://arxiv.org/html/{arxiv_id}` using BeautifulSoup, with fallback to PDF extraction.
+
+### 2.7 Module 7: `paperagent.engine.comparator` (v0.2.0)
+* **File Structure:**
+  - `paperagent/engine/comparator.py`: Cross-paper comparative intelligence. Compares two papers across complexity, assumptions, empirical gains, and hardware constraints, returning structured `ComparisonMatrix`.
+
+### 2.8 Module 8: `paperagent.engine.openreview` (v0.2.0)
+* **File Structure:**
+  - `paperagent/engine/openreview.py`: NeurIPS/ICLR-standard peer reviewer engine. Generates structured `OpenReviewReport` evaluating soundness, presentation, contribution, critical weaknesses, and reproducibility checklist.
+
+### 2.9 Module 9: `paperagent.synthesizer.visualizer` (v0.2.0)
+* **File Structure:**
+  - `paperagent/synthesizer/visualizer.py`: Generates Mermaid architecture/dataflow diagrams and self-contained Matplotlib benchmarking scripts, returning `List[DiagramArtifact]`.
+
+### 2.10 Module 10: `paperagent.export.latex` (v0.2.0)
+* **File Structure:**
+  - `paperagent/export/latex.py`: Packages paper synthesis into a complete LaTeX reproduction bundle (`main.tex`, algorithm floats, references) ready for zip download and Overleaf compilation.
+
+### 2.11 Module 11: `paperagent.runner.streaming` (v0.2.0)
+* **File Structure:**
+  - `paperagent/runner/streaming.py`: Live asynchronous line-by-line runner. Emits stdout/stderr events via AsyncGenerator for real-time Server-Sent Events (SSE) streaming.
+
+### 2.12 Module 12: `paperagent.web.library_routes` (v0.2.0)
+* **File Structure:**
+  - `paperagent/web/library_routes.py`: REST router for persistent paper library, multi-paper comparison (`/api/compare`), and OpenReview generation (`/api/openreview`).
+
+### 2.13 Module 13: `paperagent.health` & Deployment (v0.2.0)
+* **File Structure:**
+  - `paperagent/health.py`: Health check and system diagnostic endpoint (`/healthz`).
+  - `Dockerfile` & `docker-compose.yml`: Containerized production deployment.
+
 ---
 
 ## 3. Data Flow & Shared Contracts
@@ -97,5 +135,6 @@ All modules share data models defined in `paperagent/models.py`.
 
 ## 4. Testing & Code Quality
 - All unit tests live in `tests/`.
-- Every subpackage should have dedicated test coverage (`test_parser.py`, `test_engine.py`, `test_synthesizer.py`, `test_runner.py`, `test_web.py`).
+- Every subpackage should have dedicated test coverage.
 - Run tests via `pytest -v`.
+
