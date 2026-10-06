@@ -3,10 +3,12 @@ PaperAgent AI Reasoning Engine.
 """
 
 from paperagent.engine.analyzer import PaperAnalyzer
+from paperagent.engine.comparator import PaperComparator
 from paperagent.engine.prompts import (
     EXECUTIVE_SUMMARY_PROMPT,
     FORMULA_EXPLAINER_PROMPT,
-    REVIEWER_CRITIQUE_PROMPT
+    REVIEWER_CRITIQUE_PROMPT,
+    COMPARATOR_PROMPT
 )
 from paperagent.engine.llm_client import LLMClient
 from paperagent.models import ParsedPaper, AnalysisReport
@@ -29,9 +31,11 @@ def analyze_paper(paper: ParsedPaper, llm_client: LLMClient = None) -> AnalysisR
 
 __all__ = [
     "PaperAnalyzer",
+    "PaperComparator",
     "analyze_paper",
     "EXECUTIVE_SUMMARY_PROMPT",
     "FORMULA_EXPLAINER_PROMPT",
     "REVIEWER_CRITIQUE_PROMPT",
+    "COMPARATOR_PROMPT",
     "LLMClient"
 ]
