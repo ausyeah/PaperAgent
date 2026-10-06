@@ -1,0 +1,154 @@
+[
+  {
+    "task_id": "task_1_arxiv",
+    "title": "feat: implement ArXiv ingestion and metadata downloader",
+    "session": "sessions/14427683213424458126",
+    "data": {
+      "name": "sessions/14427683213424458126",
+      "title": "feat: implement ArXiv ingestion and metadata downloader",
+      "sourceContext": {
+        "source": "sources/github/ausyeah/PaperAgent",
+        "githubRepoContext": {
+          "startingBranch": "main"
+        }
+      },
+      "prompt": "Task: Implement ArXiv Downloader & Resolver in `paperagent/parser/arxiv.py`\n\nContext:\nSee `ARCHITECTURE.md` and `paperagent/models.py` for contracts. All models (PaperMetadata, etc.) are already defined.\n\nRequirements:\n1. File: `paperagent/parser/arxiv.py`\n   - `extract_arxiv_id(input_str: str) -> Optional[str]`: parses strings, handles pure IDs (e.g. '2312.12456', '2312.12456v2', 'math/0501001'), and ArXiv URLs (e.g. 'https://arxiv.org/abs/2312.12456', 'https://arxiv.org/pdf/2312.12456.pdf').\n   - `fetch_arxiv_metadata(arxiv_id: str) -> PaperMetadata`: queries the ArXiv API (http://export.arxiv.org/api/query?id_list=...) and extracts title, authors, abstract, published year, categories, doi, and pdf_url.\n   - `download_arxiv_pdf(arxiv_id: str, output_path: Optional[str] = None) -> str`: downloads the PDF using httpx or urllib, caches it locally under settings.cache_dir / f\"{arxiv_id}.pdf\", and returns the saved file path.\n2. File: `tests/test_arxiv_parser.py`\n   - Comprehensive unit tests (compatible with unittest and pytest).\n   - Test ID extraction with various URL/string formats.\n   - Mock ArXiv API XML response to test metadata extraction.\n   - Mock PDF download with temporary files.\n\nEnsure proper type hints, docstrings, and robust error handling. Do not break existing files.",
+      "url": "https://jules.google.com/session/14427683213424458126",
+      "id": "14427683213424458126",
+      "automationMode": "AUTO_CREATE_PR"
+    }
+  },
+  {
+    "task_id": "task_2_pdf_parser",
+    "title": "feat: implement PDF section, formula, and algorithm extraction",
+    "session": "sessions/11735662319600948924",
+    "data": {
+      "name": "sessions/11735662319600948924",
+      "title": "feat: implement PDF section, formula, and algorithm extraction",
+      "sourceContext": {
+        "source": "sources/github/ausyeah/PaperAgent",
+        "githubRepoContext": {
+          "startingBranch": "main"
+        }
+      },
+      "prompt": "Task: Implement PDF Extractor & Formula/Algorithm Parser in `paperagent/parser/pdf_extractor.py` and `paperagent/parser/mineru_adapter.py`\n\nContext:\nSee `ARCHITECTURE.md` and `paperagent/models.py`. Models `ExtractedFormula`, `ExtractedAlgorithm`, `PaperSection`, and `ParsedPaper` are defined in `paperagent/models.py`.\n\nRequirements:\n1. File: `paperagent/parser/pdf_extractor.py`\n   - Uses `pypdf` (already in requirements.txt) to extract page-by-page text.\n   - Clean header/footer artifacts and reconstruct markdown sections based on numeric/title patterns (e.g. \"1. Introduction\", \"2. Related Work\", \"3. Methodology\").\n   - Extract mathematical formulas using regex heuristics (finds inline `$ ... $`, display `$$ ... $$`, `\\[ ... \\]`, and `\\begin{equation} ... \\end{equation}`), returning `List[ExtractedFormula]`.\n   - Extract algorithm blocks (finds \"Algorithm 1:\", \"Input:\", \"Output:\", pseudocode blocks), returning `List[ExtractedAlgorithm]`.\n   - Assembles into `ParsedPaper`.\n2. File: `paperagent/parser/mineru_adapter.py`\n   - Check `settings.mineru_api_key`. If set, provide an optional client that can call Mineru cloud API for PDF extraction. If no key or API fails, cleanly fallback to `pdf_extractor.py`.\n3. File: `paperagent/parser/__init__.py`\n   - Export `parse_paper(source: str) -> ParsedPaper` and helper functions. If source is an ArXiv ID or URL, delegate to arxiv downloader first.\n4. File: `tests/test_pdf_parser.py`\n   - Unit tests using mock PDF bytes or mock text strings to test section heading detection, equation extraction, and algorithm parsing.\n\nEnsure proper type hints, docstrings, and compatibility with Python 3.10+.",
+      "url": "https://jules.google.com/session/11735662319600948924",
+      "id": "11735662319600948924",
+      "automationMode": "AUTO_CREATE_PR"
+    }
+  },
+  {
+    "task_id": "task_3_llm_gateway",
+    "title": "feat: implement unified LLM client gateway with Gemini and OpenAI support",
+    "session": "sessions/8625922598336562614",
+    "data": {
+      "name": "sessions/8625922598336562614",
+      "title": "feat: implement unified LLM client gateway with Gemini and OpenAI support",
+      "sourceContext": {
+        "source": "sources/github/ausyeah/PaperAgent",
+        "githubRepoContext": {
+          "startingBranch": "main"
+        }
+      },
+      "prompt": "Task: Implement Unified LLM Gateway in `paperagent/engine/llm_client.py`\n\nContext:\nSee `ARCHITECTURE.md` and `paperagent/config.py`.\n\nRequirements:\n1. File: `paperagent/engine/llm_client.py`\n   - Unified async and sync LLM client class `LLMClient`.\n   - Native support for Google Gemini API (`https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent`) using `settings.gemini_api_key`.\n   - Support for standard OpenAI-compatible endpoints (`/v1/chat/completions`) using `settings.openai_api_key`.\n   - Method `generate(prompt: str, system_prompt: Optional[str] = None, json_mode: bool = False, temperature: float = 0.2) -> str`.\n   - Method `generate_structured(prompt: str, response_model: Type[BaseModel], system_prompt: Optional[str] = None) -> BaseModel`: enforces or parses JSON response directly into the specified Pydantic model.\n   - Retry logic with backoff for rate limits.\n   - Offline / Mock fallback mode: when no API keys are configured, return realistic structured mock responses so the entire system can still be tested and demonstrated offline.\n2. File: `tests/test_llm_client.py`\n   - Unit tests for LLMClient (compatible with unittest and pytest).\n   - Test JSON mode parsing, mock mode behavior, and error handling.\n\nEnsure clean code, type annotations, and robust network error handling.",
+      "url": "https://jules.google.com/session/8625922598336562614",
+      "id": "8625922598336562614",
+      "automationMode": "AUTO_CREATE_PR"
+    }
+  },
+  {
+    "task_id": "task_4_deep_reading",
+    "title": "feat: implement AI deep-reading analyzer and NeurIPS critic reviewer",
+    "session": "sessions/9166794702183217388",
+    "data": {
+      "name": "sessions/9166794702183217388",
+      "title": "feat: implement AI deep-reading analyzer and NeurIPS critic reviewer",
+      "sourceContext": {
+        "source": "sources/github/ausyeah/PaperAgent",
+        "githubRepoContext": {
+          "startingBranch": "main"
+        }
+      },
+      "prompt": "Task: Implement Deep-Reading Prompts & Analyzer in `paperagent/engine/`\n\nContext:\nSee `ARCHITECTURE.md` and `paperagent/models.py`. Target models are `AnalysisReport`, `FormulaExplanation`, `ReviewerCritique`.\n\nRequirements:\n1. File: `paperagent/engine/prompts.py`\n   - High quality prompt templates:\n     a) `EXECUTIVE_SUMMARY_PROMPT`: produces executive summary, core problem, key innovation, and methodology overview.\n     b) `FORMULA_EXPLAINER_PROMPT`: takes LaTeX formula and context, outputs variable glossary, intuitive intuition, and step-by-step breakdown.\n     c) `REVIEWER_CRITIQUE_PROMPT`: simulates a top-tier conference (NeurIPS/ICLR) reviewer, evaluating strengths, weaknesses, hidden assumptions, failure modes, reproducibility pitfalls, and giving a 1-10 score.\n2. File: `paperagent/engine/analyzer.py`\n   - Class `PaperAnalyzer` with method `analyze(paper: ParsedPaper) -> AnalysisReport`.\n   - Orchestrates LLM calls to generate summary, explain up to top 5 key formulas, and generate the reviewer critique.\n   - Integrates with `paperagent.engine.llm_client.LLMClient`.\n3. File: `paperagent/engine/__init__.py`\n   - Export `PaperAnalyzer`, `analyze_paper`, and prompt constants.\n4. File: `tests/test_analyzer.py`\n   - Unit tests testing `PaperAnalyzer` with mocked LLM outputs, verifying `AnalysisReport` model fields and constraints.\n\nEnsure thorough docstrings, clean typing, and graceful handling of empty paper sections.",
+      "url": "https://jules.google.com/session/9166794702183217388",
+      "id": "9166794702183217388",
+      "automationMode": "AUTO_CREATE_PR"
+    }
+  },
+  {
+    "task_id": "task_5_codegen",
+    "title": "feat: implement algorithm-to-code synthesizer and test generator",
+    "session": "sessions/955496543932416796",
+    "data": {
+      "name": "sessions/955496543932416796",
+      "title": "feat: implement algorithm-to-code synthesizer and test generator",
+      "sourceContext": {
+        "source": "sources/github/ausyeah/PaperAgent",
+        "githubRepoContext": {
+          "startingBranch": "main"
+        }
+      },
+      "prompt": "Task: Implement Code Synthesizer and Test Suite Generator in `paperagent/synthesizer/`\n\nContext:\nSee `ARCHITECTURE.md` and `paperagent/models.py`. Target model is `SynthesisResult`.\n\nRequirements:\n1. File: `paperagent/synthesizer/code_generator.py`\n   - Given an `ExtractedAlgorithm` or relevant paper methodology sections, prompt LLM to generate self-contained, high quality Python code implementing the core algorithm (`target_module_code`).\n   - Code must:\n     - Use only standard library and NumPy/PyTorch.\n     - Include full type hints and docstrings.\n     - Have an executable demonstration under `if __name__ == '__main__':` with synthetic toy data.\n2. File: `paperagent/synthesizer/test_generator.py`\n   - Generates accompanying automated test suite (`test_suite_code`) with unittest/pytest assertions verifying mathematical invariants, shape checks, and numerical stability.\n3. File: `paperagent/synthesizer/__init__.py`\n   - Class `CodeSynthesizer` with method `synthesize(paper: ParsedPaper, algo_index: int = 0) -> SynthesisResult`.\n4. File: `tests/test_codegen.py`\n   - Unit tests for code and test generator formatting, validating that generated code strings are valid Python syntax (using `ast.parse`).\n\nEnsure clean modular design, type annotations, and solid unit tests.",
+      "url": "https://jules.google.com/session/955496543932416796",
+      "id": "955496543932416796",
+      "automationMode": "AUTO_CREATE_PR"
+    }
+  },
+  {
+    "task_id": "task_6_sandbox",
+    "title": "feat: implement safe subprocess execution sandbox and artifact capture",
+    "session": "sessions/14946635222275634574",
+    "data": {
+      "name": "sessions/14946635222275634574",
+      "title": "feat: implement safe subprocess execution sandbox and artifact capture",
+      "sourceContext": {
+        "source": "sources/github/ausyeah/PaperAgent",
+        "githubRepoContext": {
+          "startingBranch": "main"
+        }
+      },
+      "prompt": "Task: Implement Subprocess Execution Sandbox in `paperagent/runner/`\n\nContext:\nSee `ARCHITECTURE.md` and `paperagent/models.py`. Target model is `ExecutionResult`.\n\nRequirements:\n1. File: `paperagent/runner/sandbox.py`\n   - Class `ExecutionSandbox`:\n     - Method `run_code(code: str, timeout: int = 30) -> ExecutionResult`:\n       * Creates an isolated temporary directory.\n       * Writes the python code to `run_target.py`.\n       * Executes `python run_target.py` in a separate subprocess.\n       * Enforces execution timeout (`settings.sandbox_timeout_seconds`).\n       * Captures `stdout`, `stderr`, exit code, execution time.\n       * Scans the temporary directory for any generated artifact files (e.g. `.png`, `.jpg`, `.csv`, `.json`), copies them to `settings.output_dir`, and records their paths in `ExecutionResult.generated_artifacts`.\n     - Method `run_tests(module_code: str, test_code: str, timeout: int = 30) -> ExecutionResult`:\n       * Writes both module and test file into temp dir and executes `python -m unittest` or test runner, capturing pass/fail statistics.\n2. File: `paperagent/runner/__init__.py`\n   - Export `ExecutionSandbox` and standalone function `execute_code(...)`.\n3. File: `tests/test_sandbox.py`\n   - Unit tests verifying:\n     - Successful execution with printed output.\n     - Syntax error handling.\n     - Subprocess timeout enforcement.\n     - Artifact detection when a script saves a file.\n\nEnsure Windows and Linux cross-platform compatibility, clean tempfile cleanup, and type hints.",
+      "url": "https://jules.google.com/session/14946635222275634574",
+      "id": "14946635222275634574",
+      "automationMode": "AUTO_CREATE_PR"
+    }
+  },
+  {
+    "task_id": "task_7_export",
+    "title": "feat: implement report exporter suite (Markdown, Jupyter Notebook, BibTeX)",
+    "session": "sessions/12885240112141264976",
+    "data": {
+      "name": "sessions/12885240112141264976",
+      "title": "feat: implement report exporter suite (Markdown, Jupyter Notebook, BibTeX)",
+      "sourceContext": {
+        "source": "sources/github/ausyeah/PaperAgent",
+        "githubRepoContext": {
+          "startingBranch": "main"
+        }
+      },
+      "prompt": "Task: Implement Exporter Suite in `paperagent/export/`\n\nContext:\nSee `ARCHITECTURE.md` and `paperagent/models.py`.\n\nRequirements:\n1. File: `paperagent/export/markdown.py`\n   - `export_markdown(project: PaperProject) -> str`:\n     - Formats complete reading report: Paper metadata header, Executive summary table, Section overview, Formula demystification cards with LaTeX math, NeurIPS Reviewer critique card with badge and scores, and synthesized Python code block.\n2. File: `paperagent/export/notebook.py`\n   - `export_jupyter_notebook(project: PaperProject, output_path: Optional[str] = None) -> str`:\n     - Constructs a valid Jupyter Notebook JSON string (`.ipynb`, format v4).\n     - Includes markdown cells for paper introduction and formula breakdown.\n     - Includes code cells containing the synthesized algorithm code, test suite, and runnable toy demo.\n     - Validates JSON format.\n3. File: `paperagent/export/bibtex.py`\n   - `generate_bibtex(meta: PaperMetadata) -> str`:\n     - Generates standard BibTeX citation entry (@article{...}).\n4. File: `paperagent/export/__init__.py`\n   - Export `export_markdown`, `export_jupyter_notebook`, and `generate_bibtex`.\n5. File: `tests/test_export.py`\n   - Unit tests testing Markdown generation, valid Jupyter notebook JSON parsing (`json.loads`), and BibTeX syntax.\n\nEnsure clean code, type annotations, and robust handling of optional fields.",
+      "url": "https://jules.google.com/session/12885240112141264976",
+      "id": "12885240112141264976",
+      "automationMode": "AUTO_CREATE_PR"
+    }
+  },
+  {
+    "task_id": "task_8_web_cli",
+    "title": "feat: implement interactive dual-pane Web UI and Rich CLI",
+    "session": "sessions/11296958708354066126",
+    "data": {
+      "name": "sessions/11296958708354066126",
+      "title": "feat: implement interactive dual-pane Web UI and Rich CLI",
+      "sourceContext": {
+        "source": "sources/github/ausyeah/PaperAgent",
+        "githubRepoContext": {
+          "startingBranch": "main"
+        }
+      },
+      "prompt": "Task: Implement Web Dashboard & Rich CLI in `paperagent/web/` and `paperagent/cli.py`\n\nContext:\nSee `ARCHITECTURE.md` and `paperagent/models.py`.\n\nRequirements:\n1. File: `paperagent/cli.py`\n   - Terminal CLI powered by `rich` (console tables, syntax coloring, status spinners):\n     - `parse <source>`: displays paper metadata, section outline, extracted formula count.\n     - `analyze <source>`: displays Executive Brief, formula explanations, and Reviewer Critique with colored score badge.\n     - `synthesize <source>`: displays synthesized Python code with syntax highlighting.\n     - `run <source>`: executes code in sandbox and prints stdout/stderr.\n     - `serve [--host 127.0.0.1] [--port 8000]`: runs the FastAPI server with uvicorn.\n2. File: `paperagent/web/app.py`\n   - FastAPI application with CORS and static file mounting:\n     - `POST /api/paper/parse`: accepts JSON `{\"source\": \"...\"}` or file upload.\n     - `POST /api/paper/analyze`: accepts `ParsedPaper`, returns `AnalysisReport`.\n     - `POST /api/paper/synthesize`: accepts `ParsedPaper`, returns `SynthesisResult`.\n     - `POST /api/paper/execute`: accepts `{\"code\": \"...\"}`, returns `ExecutionResult`.\n     - `GET /api/paper/export/markdown`: downloads `.md`.\n     - `GET /api/paper/export/notebook`: downloads `.ipynb`.\n3. File: `paperagent/web/static/index.html` (self-contained, sleek modern CSS/JS):\n   - Dual-pane layout:\n     - Header: Input bar (ArXiv ID/URL or file drop), action buttons (\"Parse\", \"Deep Analyze\", \"Synthesize Code\").\n     - Left Pane (Paper View): Title, authors, abstract, collapsible section navigation, and formula gallery.\n     - Right Pane (Workstation):\n       * Tab 1: Executive Brief & Reviewer Critique (with score badge 1-10, strengths, weaknesses).\n       * Tab 2: Formula Demystifier (intuitive intuition, variable glossary).\n       * Tab 3: Synthesized Code Editor & Live Subprocess Console (run code button, live stdout/stderr stream, artifact viewer).\n4. File: `tests/test_web.py` and `tests/test_cli.py`:\n   - Unit tests for FastAPI endpoints (using httpx or TestClient) and CLI argument parsing.\n\nEnsure clean styling, responsive layout, and proper error handling.",
+      "url": "https://jules.google.com/session/11296958708354066126",
+      "id": "11296958708354066126",
+      "automationMode": "AUTO_CREATE_PR"
+    }
+  }
+]
