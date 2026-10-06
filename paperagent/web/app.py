@@ -32,6 +32,7 @@ from paperagent.engine import analyze_paper as core_analyze_paper
 from paperagent.synthesizer import CodeSynthesizer
 from paperagent.runner import ExecutionSandbox
 from paperagent.export import export_markdown as core_export_markdown, export_jupyter_notebook as core_export_notebook
+from paperagent.health import check_system_health
 
 app = FastAPI(
     title="PaperAgent API",
@@ -59,6 +60,10 @@ class ExecuteRequest(BaseModel):
 # In-memory store for active session project
 _current_project: Optional[PaperProject] = None
 
+
+@app.get("/healthz")
+def healthz_endpoint():
+    return check_system_health()
 
 @app.post("/api/paper/parse", response_model=ParsedPaper)
 def parse_paper_endpoint(

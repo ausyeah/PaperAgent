@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  paperagent:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - paperagent-data:/root/.paperagent
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - MINERU_API_KEY=${MINERU_API_KEY:-}
+
+volumes:
+  paperagent-data:
