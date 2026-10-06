@@ -8,7 +8,8 @@ from paperagent.engine.prompts import (
     EXECUTIVE_SUMMARY_PROMPT,
     FORMULA_EXPLAINER_PROMPT,
     REVIEWER_CRITIQUE_PROMPT,
-    COMPARATOR_PROMPT
+    COMPARATOR_PROMPT,
+    CODE_ALIGNER_PROMPT
 )
 from paperagent.engine.llm_client import LLMClient
 from paperagent.models import ParsedPaper, AnalysisReport
@@ -37,5 +38,6 @@ __all__ = [
     "FORMULA_EXPLAINER_PROMPT",
     "REVIEWER_CRITIQUE_PROMPT",
     "COMPARATOR_PROMPT",
+    "CODE_ALIGNER_PROMPT",
     "LLMClient"
 ]

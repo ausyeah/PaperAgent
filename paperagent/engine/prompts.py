@@ -71,3 +71,26 @@ Return a structured ComparisonMatrix that contains:
 - `trade_off_summary`: A brief summary of fundamental engineering trade-offs.
 - `recommended_choice`: Actionable guidance on which to use in which scenarios.
 """
+
+CODE_ALIGNER_PROMPT = """
+You are an expert software engineer and AI researcher. Your task is to analyze synthesized Python code and align it with the mathematical formulas from the original academic paper.
+
+Paper Title: {paper_title}
+
+Extracted Formulas:
+{formulas}
+
+Synthesized Python Code:
+{code}
+
+Please bidirectionally map the synthesized code to the mathematical formulas.
+Return a structured TraceMap object with a list of `CodeMathAlignment` mappings.
+For each alignment, provide:
+1. `function_name`: The name of the function or block in the code.
+2. `code_line_range`: The line range in the code (e.g., "L12-L28").
+3. `target_formula_id`: The ID of the corresponding formula (e.g., "formula-1").
+4. `target_formula_latex`: The LaTeX representation of the target formula.
+5. `alignment_notes`: An explanation of how the code variables correspond to the math symbols.
+
+Ensure the mapping is as accurate and detailed as possible.
+"""
