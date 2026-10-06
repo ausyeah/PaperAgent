@@ -35,6 +35,7 @@ from paperagent.export import export_markdown as core_export_markdown, export_ju
 from paperagent.health import check_system_health
 
 from paperagent.web.library_routes import register_library_routes
+from paperagent.web.v3_routes import register_v3_routes
 
 app = FastAPI(
     title="PaperAgent API",
@@ -261,6 +262,7 @@ def export_notebook_endpoint():
 
 
 register_library_routes(app)
+register_v3_routes(app)
 
 # Mount static directory if present
 static_dir = os.path.join(os.path.dirname(__file__), "static")
