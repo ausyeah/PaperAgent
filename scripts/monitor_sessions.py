@@ -18,12 +18,15 @@ GH_HEADERS = {
 }
 
 def monitor():
-    file_path = ".jules/active_sessions_v2.json"
+    file_path = ".jules/active_sessions_v3.json"
+    if not os.path.exists(file_path):
+        file_path = ".jules/active_sessions_v2.json"
     if not os.path.exists(file_path):
         file_path = ".jules/active_sessions.json"
     if not os.path.exists(file_path):
         print("No active sessions file found.", flush=True)
         return
+
 
     with open(file_path, "r", encoding="utf-8") as f:
         tasks = json.load(f)

@@ -15,17 +15,24 @@
   - **Executive Summary**: 3-minute executive synthesis of problem, breakthrough, and empirical gains.
   - **Formula Demystifier**: Translates complex LaTeX mathematical equations into intuitive plain-language analogies and variable glossaries.
   - **Critic Reviewer Mode**: Top-tier conference (NeurIPS/ICLR) critique pointing out hidden assumptions, unproven claims, and missing baseline comparisons.
-* **⚡ Algorithm-to-Code Synthesizer**:
-  - Automatically identifies paper algorithms and pseudocode blocks.
-  - Synthesizes self-contained, well-commented Python implementations with minimal dependencies.
+* **⚡ Multi-Framework Synthesizer & Transpiler**:
+  - Synthesizes self-contained algorithm implementations across **NumPy, PyTorch (`nn.Module`), and JAX**.
+  - Bidirectional **Code-to-Math Trace Aligner** links Python lines directly to paper formula IDs.
   - Generates automated PyTest verification suites with synthetic toy datasets.
-* **🛡️ Subprocess Execution Sandbox**:
-  - Runs synthesized reproduction code safely with strict timeout & output isolation.
-  - Captures terminal output, error traces, and rendered matplotlib plots.
-* **🖥️ Dual-Pane Modern UI & Rich CLI**:
-  - **CLI**: Fast terminal inspection with Rich tables, syntax highlighting, and progress bars.
-  - **Web Dashboard**: Interactive split-screen layout (left: Paper structure & formulas, right: AI analysis, code editor, and live execution console).
-* **📓 Export Anywhere**: Export complete findings to structured Markdown reports, BibTeX entries, or runnable Jupyter Notebooks (`.ipynb`).
+* **📐 Formal Formula & Complexity Verification**:
+  - **Invariant Checker**: Symbolically validates tensor dimension invariants, shape compatibility, and mathematical consistency.
+  - **Empirical Profiler**: Benchmarks runtime scaling and memory footprints across input problem sizes.
+* **🌐 Citation Lineage & Semantic Search**:
+  - Crawls bibliographies and constructs directed **Citation Graphs** categorizing foundations, baselines, and successors.
+  - Hybrid pure-Python **BM25 / TF-IDF Vector Index** for instant semantic search over personal paper libraries.
+* **📊 Multi-Channel Export & CI/CD**:
+  - **Presentation Slides**: Generates presentation-ready **Marp** slide decks (`.md`) with LaTeX math and reviewer highlights.
+  - **Continuous Reproduction**: Exports standalone **GitHub Actions** CI workflows verifying paper implementations on every push.
+  - Exports to Jupyter Notebooks (`.ipynb`), structured Markdown reports, BibTeX entries, and Overleaf LaTeX reproduction bundles.
+* **🖥️ Multi-Modal Interface**:
+  - **Rich TUI**: Full-screen interactive terminal dashboard with formula galleries and code viewer.
+  - **Web Dashboard**: Split-screen single-page application with SSE live streaming execution console.
+  - **CLI**: Rapid terminal inspection, parsing, and execution.
 
 ---
 

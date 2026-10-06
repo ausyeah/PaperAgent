@@ -3,6 +3,7 @@ from .notebook import export_jupyter_notebook
 from .bibtex import generate_bibtex
 from .latex import generate_latex_source, export_latex_bundle
 from .ci_action import generate_github_workflow, export_reproduction_repo_bundle
+from .slides import generate_marp_slides, export_slides_file
 
 __all__ = [
     "export_markdown",
@@ -11,5 +12,7 @@ __all__ = [
     "generate_latex_source",
     "export_latex_bundle",
     "generate_github_workflow",
-    "export_reproduction_repo_bundle"
+    "export_reproduction_repo_bundle",
+    "generate_marp_slides",
+    "export_slides_file",
 ]
