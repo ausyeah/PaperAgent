@@ -18,7 +18,9 @@ GH_HEADERS = {
 }
 
 def monitor():
-    file_path = ".jules/active_sessions_v4.json"
+    file_path = ".jules/active_sessions_v5.json"
+    if not os.path.exists(file_path):
+        file_path = ".jules/active_sessions_v4.json"
     if not os.path.exists(file_path):
         file_path = ".jules/active_sessions_v3.json"
     if not os.path.exists(file_path):

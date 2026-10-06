@@ -200,6 +200,62 @@ PaperAgent takes academic papers (from ArXiv IDs, URLs, or local PDFs), decompos
 * **File Structure:**
   - `paperagent/storage/radar.py`: Monitors ArXiv daily feeds against user research watchlists and generates daily executive briefing reports (`DailyDigestReport`).
 
+### 2.33 Module 33: `paperagent.synthesizer.kernel` (v0.5.0)
+* **File Structure:**
+  - `paperagent/synthesizer/kernel.py`: Synthesizes high-performance OpenAI Triton GPU kernels and benchmarking harnesses for academic attention/matrix operators (`TritonKernelResult`).
+
+### 2.34 Module 34: `paperagent.engine.committee` (v0.5.0)
+* **File Structure:**
+  - `paperagent/engine/committee.py`: Simulates a 3-agent academic review committee (Theory Expert, Empirical Skeptic, Impact Champion) with Area Chair meta-review and accept/reject decision (`CommitteeReview`).
+
+### 2.35 Module 35: `paperagent.export.graph_view` (v0.5.0)
+* **File Structure:**
+  - `paperagent/export/graph_view.py`: Generates standalone interactive D3/vis.js citation graph HTML visualizations (`GraphVisualizationBundle`).
+
+### 2.36 Module 36: `paperagent.synthesizer.dataset_gen` (v0.5.0)
+* **File Structure:**
+  - `paperagent/synthesizer/dataset_gen.py`: Generates self-contained synthetic dataset fixtures and PyTorch `Dataset`/`DataLoader` classes tailored to paper tensor dimensions (`SyntheticDatasetFixture`).
+
+### 2.37 Module 37: `paperagent.synthesizer.quantizer` (v0.5.0)
+* **File Structure:**
+  - `paperagent/synthesizer/quantizer.py`: Models memory footprints and latency across FP32, FP16, BF16, INT8, and INT4 precisions, generating dynamic quantization wrappers (`QuantizationProfile`).
+
+### 2.38 Module 38: `paperagent.engine.scorecard` (v0.5.0)
+* **File Structure:**
+  - `paperagent/engine/scorecard.py`: Evaluates papers against 10 strict empirical reproducibility criteria and generates actionable recommendation checklists (`ReproducibilityScorecard`).
+
+### 2.39 Module 39: `paperagent.parser.table_extractor` (v0.5.0)
+* **File Structure:**
+  - `paperagent/parser/table_extractor.py`: Parses LaTeX and Markdown tables, normalizing them into structured tabular objects and CSV exports (`ExtractedTableCollection`).
+
+### 2.40 Module 40: `paperagent.export.sync_bot` (v0.5.0)
+* **File Structure:**
+  - `paperagent/export/sync_bot.py`: Generates automated GitHub PR descriptions and Overleaf sync bundles for seamless paper reproduction publication (`SyncBotBundle`).
+
+### 2.41 Module 41: `paperagent.engine.derivation` (v0.5.0)
+* **File Structure:**
+  - `paperagent/engine/derivation.py`: Symbolically verifies mathematical derivation steps between sequential formulas, identifying dimensional jumps or missing assumptions (`DerivationVerificationResult`).
+
+### 2.42 Module 42: `paperagent.export.tts_pipeline` (v0.5.0)
+* **File Structure:**
+  - `paperagent/export/tts_pipeline.py`: Converts podcast dialogue scripts into phonetically annotated SSML bundles with speaker voice tags (`SSMLPodcastBundle`).
+
+### 2.43 Module 43: `paperagent.storage.clusterer` (v0.5.0)
+* **File Structure:**
+  - `paperagent/storage/clusterer.py`: Performs pure Python TF-IDF semantic clustering over the paper storage library to discover latent research themes (`TopicClusterCollection`).
+
+### 2.44 Module 44: `paperagent.export.interactive_notebook` (v0.5.0)
+* **File Structure:**
+  - `paperagent/export/interactive_notebook.py`: Generates rich Jupyter Notebooks with KaTeX formulas, ipywidgets parameter sliders, and live interactive Matplotlib plots (`InteractiveNotebookBundle`).
+
+### 2.45 Module 45: `paperagent.benchmarks.reproduce_papers` (v0.5.0)
+* **File Structure:**
+  - `paperagent/benchmarks/reproduce_papers.py`: Deterministic baseline reproduction benchmark suite for seminal architectures including Transformer, LoRA, and Mamba (`BenchmarkEvaluationResult`).
+
+### 2.46 Module 46: `paperagent.engine.speedup_comparator` (v0.5.0)
+* **File Structure:**
+  - `paperagent/engine/speedup_comparator.py`: Cross-runtime speedup comparator benchmarking latency and throughput across PyTorch eager, JAX JIT, and Triton GPU kernels (`SpeedupComparisonResult`).
+
 ---
 
 ## 3. Data Flow & Shared Contracts
@@ -212,6 +268,7 @@ All modules share data models defined in `paperagent/models.py`.
 ## 4. Testing & Code Quality
 - All unit tests live in `tests/`.
 - Every subpackage should have dedicated test coverage.
-- Run tests via `pytest -v`.
+- Run tests via `pytest -v` (216/216 passing 100%).
+
 
 

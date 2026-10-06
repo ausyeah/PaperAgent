@@ -10,6 +10,10 @@ from paperagent.engine.survey import LiteratureSurveyEngine, synthesize_literatu
 from paperagent.engine.meta_analysis import MetaAnalysisEngine, analyze_multi_paper_consensus
 from paperagent.engine.paper_qa import PaperQAAgent, answer_paper_question
 from paperagent.engine.rebuttal import AuthorRebuttalDrafter, draft_author_rebuttal
+from paperagent.engine.committee import PeerReviewCommittee
+from paperagent.engine.derivation import DerivationVerifier
+from paperagent.engine.scorecard import ReproducibilityEvaluator, evaluate_reproducibility
+from paperagent.engine.speedup_comparator import SpeedupComparator
 from paperagent.engine.llm_client import LLMClient
 from paperagent.engine.prompts import (
     EXECUTIVE_SUMMARY_PROMPT,
@@ -21,6 +25,9 @@ from paperagent.engine.prompts import (
     META_ANALYSIS_PROMPT,
     PAPER_QA_PROMPT,
     AUTHOR_REBUTTAL_PROMPT,
+    COMMITTEE_REVIEW_PROMPT,
+    REPRODUCIBILITY_SCORECARD_PROMPT,
+    DERIVATION_VERIFIER_PROMPT,
 )
 from paperagent.models import ParsedPaper, AnalysisReport
 
@@ -46,6 +53,11 @@ __all__ = [
     "answer_paper_question",
     "AuthorRebuttalDrafter",
     "draft_author_rebuttal",
+    "PeerReviewCommittee",
+    "DerivationVerifier",
+    "ReproducibilityEvaluator",
+    "evaluate_reproducibility",
+    "SpeedupComparator",
     "analyze_paper",
     "LLMClient",
     "EXECUTIVE_SUMMARY_PROMPT",
@@ -57,4 +69,7 @@ __all__ = [
     "META_ANALYSIS_PROMPT",
     "PAPER_QA_PROMPT",
     "AUTHOR_REBUTTAL_PROMPT",
+    "COMMITTEE_REVIEW_PROMPT",
+    "REPRODUCIBILITY_SCORECARD_PROMPT",
+    "DERIVATION_VERIFIER_PROMPT",
 ]

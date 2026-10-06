@@ -8,6 +8,9 @@ CodeTranspiler = MultiFrameworkTranspiler
 from paperagent.synthesizer.ablation import AblationGenerator, design_ablation_study
 from paperagent.synthesizer.hardware_estimator import HardwareEstimator, estimate_hardware_profile
 from paperagent.synthesizer.hf_adapter import synthesize_hf_adapter
+from paperagent.synthesizer.kernel import TritonKernelSynthesizer
+from paperagent.synthesizer.dataset_gen import SyntheticDatasetGenerator
+from paperagent.synthesizer.quantizer import QuantizationProfiler
 
 class CodeSynthesizer:
     """
@@ -56,4 +59,7 @@ __all__ = [
     "HardwareEstimator",
     "estimate_hardware_profile",
     "synthesize_hf_adapter",
+    "TritonKernelSynthesizer",
+    "SyntheticDatasetGenerator",
+    "QuantizationProfiler",
 ]

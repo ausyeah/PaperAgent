@@ -258,3 +258,95 @@ function exportLatex() {
 if (window.mermaid) {
     mermaid.initialize({ startOnLoad: false, theme: 'default' });
 }
+
+function renderCommitteeReview(committeeData) {
+    if (!committeeData || !committeeData.reviews) {
+        document.getElementById('committeeContent').innerHTML = '<p>No committee review available.</p>';
+        return;
+    }
+    const decisionColor = committeeData.final_decision.includes('Accept') ? 'var(--success)' : 'var(--danger)';
+    let html = `
+        <div style="background: #f1f5f9; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem; border-left: 4px solid ${decisionColor};">
+            <h3 style="margin-top: 0;">Area Chair Meta-Review</h3>
+            <div style="font-weight: bold; margin-bottom: 0.5rem; color: ${decisionColor};">Decision: ${committeeData.final_decision}</div>
+            <p>${committeeData.meta_review}</p>
+        </div>
+        <h3>Reviewer Committee Evals</h3>
+    `;
+    committeeData.reviews.forEach(r => {
+        html += `
+            <div style="margin-bottom: 1.25rem; padding: 1rem; border: 1px solid var(--border-color); border-radius: 0.375rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <strong>${r.persona} (${r.reviewer_id})</strong>
+                    <span class="badge" style="background: var(--primary); color: white;">Score: ${r.score}/10</span>
+                </div>
+                <p>${r.detailed_critique}</p>
+                ${r.strengths.length ? `<div style="color: var(--success);"><strong>+ Strengths:</strong> ${r.strengths.join('; ')}</div>` : ''}
+                ${r.weaknesses.length ? `<div style="color: var(--danger); margin-top: 0.25rem;"><strong>- Weaknesses:</strong> ${r.weaknesses.join('; ')}</div>` : ''}
+            </div>
+        `;
+    });
+    document.getElementById('committeeContent').innerHTML = html;
+}
+
+function renderScorecard(scorecardData) {
+    if (!scorecardData) {
+        document.getElementById('scorecardContent').innerHTML = '<p>No scorecard available.</p>';
+        return;
+    }
+    let html = `
+        <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;">
+            <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold;">
+                ${scorecardData.score}/100
+            </div>
+            <div>
+                <h3 style="margin: 0;">Reproducibility Scorecard</h3>
+                <div style="color: var(--text-muted);">${scorecardData.verdict_level}</div>
+            </div>
+        </div>
+        <h4>Criteria Checklist</h4>
+        <ul style="list-style: none; padding-left: 0;">
+    `;
+    if (scorecardData.criteria_checklist) {
+        Object.entries(scorecardData.criteria_checklist).forEach(([k, v]) => {
+            const icon = v ? '<span style="color: green; font-weight: bold;">[PASS]</span>' : '<span style="color: red; font-weight: bold;">[FAIL]</span>';
+            html += `<li style="padding: 0.25rem 0; border-bottom: 1px solid #f1f5f9;">${icon} ${k}</li>`;
+        });
+    }
+    html += '</ul>';
+    if (scorecardData.improvement_recommendations && scorecardData.improvement_recommendations.length) {
+        html += `
+            <h4 style="margin-top: 1rem;">Actionable Recommendations</h4>
+            <ul>
+                ${scorecardData.improvement_recommendations.map(rec => `<li>${rec}</li>`).join('')}
+            </ul>
+        `;
+    }
+    document.getElementById('scorecardContent').innerHTML = html;
+}
+
+function renderPodcast(podcastData) {
+    if (!podcastData || !podcastData.turns) {
+        document.getElementById('podcastContent').innerHTML = '<p>No podcast dialogue available.</p>';
+        return;
+    }
+    let html = `
+        <h3>Episode: ${podcastData.episode_title}</h3>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Total Duration: ~${podcastData.total_duration_minutes || 5} min</p>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+    `;
+    podcastData.turns.forEach(turn => {
+        const isA = turn.speaker.includes('Host A') || turn.speaker.includes('Alex');
+        const bg = isA ? '#eff6ff' : '#f8fafc';
+        const border = isA ? '#bfdbfe' : '#e2e8f0';
+        html += `
+            <div style="background: ${bg}; border: 1px solid ${border}; border-radius: 0.5rem; padding: 0.75rem 1rem;">
+                <div style="font-weight: bold; font-size: 0.85rem; color: var(--primary); margin-bottom: 0.25rem;">${turn.speaker} (${turn.tone})</div>
+                <div>${turn.speech}</div>
+            </div>
+        `;
+    });
+    html += '</div>';
+    document.getElementById('podcastContent').innerHTML = html;
+}
+

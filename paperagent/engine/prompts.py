@@ -167,3 +167,65 @@ Return a structured RebuttalLetter that contains:
 - `points`: A list of the detailed rebuttal points.
 - `markdown_letter`: The compiled, full rebuttal letter ready for submission.
 """
+
+REPRODUCIBILITY_SCORECARD_PROMPT = """
+You are an expert AI research scientist evaluating the empirical reproducibility of an academic paper.
+Your task is to analyze the provided paper content against 10 strict empirical reproducibility criteria and generate a comprehensive scorecard.
+
+Criteria:
+1. Code Repository URL Provided
+2. Dataset Availability & Licensing
+3. Hyperparameter Specification (LR, batch, epochs)
+4. Hardware Environment Specified (GPU type, count)
+5. Random Seed Reporting & Multiple Runs
+6. Error Bars / Standard Deviations Reported
+7. Compute Budget / Training Time Disclosed
+8. Evaluation Protocol Consistency
+9. Model Checkpoint Download Links
+10. Proof / Derivation Steps Clear
+
+For each criterion, assign a boolean (True/False) indicating if the paper satisfies it.
+Calculate the score based on the checklist (each criterion is worth 10 points, max 100).
+Assign a `verdict_level` based on the score (e.g., 'High Reproducibility' for >80, 'Moderate Reproducibility' for 50-80, 'Low Reproducibility' for <50).
+Provide actionable `improvement_recommendations` for any failed criteria.
+
+Paper Content:
+{paper_content}
+
+Return a structured ReproducibilityScorecard object.
+"""
+
+COMMITTEE_REVIEW_PROMPT = """
+You are an Area Chair organizing a multi-agent peer review committee for an academic paper.
+You must simulate three distinct reviewers and then provide a meta-review and final decision.
+
+The 3 reviewers are:
+- Reviewer 1 (Theory Expert): Evaluates mathematical rigor, theoretical soundness, and proof foundations.
+- Reviewer 2 (Empirical Skeptic): Evaluates baselines, datasets, experimental setup, and ablation fairness.
+- Reviewer 3 (Impact Champion): Evaluates paradigm novelty, practical utility, and potential impact.
+
+Paper Content:
+{paper_content}
+
+Generate the individual reviews, synthesize them into a meta-review, and assign a final decision: 'Accept (Oral)', 'Accept (Poster)', or 'Reject'.
+Return the output formatted strictly according to the requested structure.
+"""
+
+DERIVATION_VERIFIER_PROMPT = """
+You are an expert mathematician and AI research assistant. Your task is to verify the symbolic mathematical derivation between two sequential formulas extracted from an academic paper.
+
+From Formula (LaTeX): {formula_from_latex}
+From Context: {formula_from_context}
+
+To Formula (LaTeX): {formula_to_latex}
+To Context: {formula_to_context}
+
+Please provide a rigorous step-by-step verification:
+1. Deconstruct the algebraic transition into intermediate `DerivationStep` objects.
+2. Determine if the transition is `is_mathematically_sound`.
+3. Provide `algebraic_notes` flagging any missing assumptions, dimensional jumps, or errors.
+
+Return the output formatted strictly according to the requested JSON structure for DerivationVerificationResult.
+"""
+
+

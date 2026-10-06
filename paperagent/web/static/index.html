@@ -76,6 +76,9 @@
                 <div class="tab" onclick="switchTab('tab-openreview', this)">OpenReview Report</div>
                 <div class="tab" onclick="switchTab('tab-code', this)">Executable Code & Runner</div>
                 <div class="tab" onclick="switchTab('tab-architecture', this)">Architecture Visualizer</div>
+                <div class="tab" onclick="switchTab('tab-committee', this)">Peer Committee Review</div>
+                <div class="tab" onclick="switchTab('tab-scorecard', this)">Reproducibility Scorecard</div>
+                <div class="tab" onclick="switchTab('tab-podcast', this)">Podcast Briefing</div>
             </div>
 
             <!-- Tab 1: Analysis -->
@@ -135,6 +138,33 @@
                     <div id="benchmarkChartPreview" style="display: flex; justify-content: center; align-items: center; height: 300px; background-color: #f8fafc; border: 1px dashed var(--border-color); border-radius: 0.375rem; color: var(--text-muted);">
                         No benchmark data available.
                     </div>
+                </div>
+            </div>
+
+            <!-- Tab 6: Peer Committee Review -->
+            <div id="tab-committee" class="tab-content">
+                <div id="committeeContent">
+                    <p style="color: var(--text-muted); text-align: center; margin-top: 2rem;">
+                        Run Deep Analyze to generate committee review.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tab 7: Reproducibility Scorecard -->
+            <div id="tab-scorecard" class="tab-content">
+                <div id="scorecardContent">
+                    <p style="color: var(--text-muted); text-align: center; margin-top: 2rem;">
+                        Run Deep Analyze to generate reproducibility scorecard.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tab 8: Podcast Briefing -->
+            <div id="tab-podcast" class="tab-content">
+                <div id="podcastContent">
+                    <p style="color: var(--text-muted); text-align: center; margin-top: 2rem;">
+                        Run Deep Analyze to generate podcast briefing.
+                    </p>
                 </div>
             </div>
         </div>
