@@ -28,6 +28,11 @@ def extract_arxiv_id(input_str: str) -> Optional[str]:
 
     return None
 
+def is_arxiv_source(input_str: str) -> bool:
+    """Returns True if the input string contains or matches a valid ArXiv ID/URL."""
+    return extract_arxiv_id(input_str) is not None
+
+
 def fetch_arxiv_metadata(arxiv_id: str) -> PaperMetadata:
     """
     Fetches paper metadata from the ArXiv API.
