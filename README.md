@@ -18,21 +18,27 @@
 * **⚡ Multi-Framework Synthesizer & Transpiler**:
   - Synthesizes self-contained algorithm implementations across **NumPy, PyTorch (`nn.Module`), and JAX**.
   - Bidirectional **Code-to-Math Trace Aligner** links Python lines directly to paper formula IDs.
+  - **HuggingFace Adapter Generator**: Wraps synthesized models in `PreTrainedModel` and `PretrainedConfig` classes with `.from_pretrained()` compatibility.
   - Generates automated PyTest verification suites with synthetic toy datasets.
-* **📐 Formal Formula & Complexity Verification**:
-  - **Invariant Checker**: Symbolically validates tensor dimension invariants, shape compatibility, and mathematical consistency.
-  - **Empirical Profiler**: Benchmarks runtime scaling and memory footprints across input problem sizes.
-* **🌐 Citation Lineage & Semantic Search**:
-  - Crawls bibliographies and constructs directed **Citation Graphs** categorizing foundations, baselines, and successors.
-  - Hybrid pure-Python **BM25 / TF-IDF Vector Index** for instant semantic search over personal paper libraries.
-* **📊 Multi-Channel Export & CI/CD**:
+* **🔬 Advanced Research Intelligence & Verification**:
+  - **Automated Ablation Study Synthesizer**: Identifies architectural components, generates variants (no LayerNorm, no RoPE, etc.), and outputs comparison benchmarks.
+  - **Empirical Profiler & Hardware Estimator**: Calculates KV-cache and training VRAM scaling across context lengths ($1k \dots 128k$), recommends GPUs, and generates Optuna tuning harnesses.
+  - **Multi-Paper Meta-Analysis**: Cross-validates empirical claims across papers and diagnoses conflicting findings.
+  - **Literature Survey Engine**: Synthesizes hierarchical taxonomy trees, chronological milestones, and comparative tables.
+  - **Grounded Paper QA**: Multi-turn conversational research co-pilot citing exact section titles and formula IDs.
+  - **Author Rebuttal Drafter**: Formulates point-by-point rebuttal letters and ablation action plans responding to peer review criticisms.
+* **🌐 Lineage Graph & Semantic Radar**:
+  - **Citation Graph**: Directed academic citation networks categorizing foundations, baselines, and successors.
+  - **ArXiv Daily Radar**: Tracks research watchlists, computes BM25 relevance scores, and generates daily executive briefing digests.
+* **🎙️ Multi-Channel Export, Podcasts & Containers**:
+  - **Two-Host Academic Podcast**: Generates NotebookLM-style dialogue scripts between curious and expert hosts with timing annotations.
+  - **Hermetic Reproduction Bundles**: Exports GPU-ready `Dockerfile.cuda`, Conda `environment.yml`, and reproduction scripts.
   - **Presentation Slides**: Generates presentation-ready **Marp** slide decks (`.md`) with LaTeX math and reviewer highlights.
-  - **Continuous Reproduction**: Exports standalone **GitHub Actions** CI workflows verifying paper implementations on every push.
-  - Exports to Jupyter Notebooks (`.ipynb`), structured Markdown reports, BibTeX entries, and Overleaf LaTeX reproduction bundles.
+  - **CI/CD Repro**: Standalone **GitHub Actions** CI workflows verifying paper implementations on every push.
 * **🖥️ Multi-Modal Interface**:
   - **Rich TUI**: Full-screen interactive terminal dashboard with formula galleries and code viewer.
   - **Web Dashboard**: Split-screen single-page application with SSE live streaming execution console.
-  - **CLI**: Rapid terminal inspection, parsing, and execution.
+  - **REST API**: 30+ endpoints across v1, v2, v3, and v4 APIs.
 
 ---
 

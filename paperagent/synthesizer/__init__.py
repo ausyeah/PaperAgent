@@ -2,6 +2,12 @@ from typing import Optional
 from paperagent.models import ParsedPaper, SynthesisResult
 from paperagent.synthesizer.code_generator import CodeGenerator
 from paperagent.synthesizer.test_generator import TestGenerator
+from paperagent.synthesizer.profiler import ComplexityProfiler
+from paperagent.synthesizer.transpiler import MultiFrameworkTranspiler
+CodeTranspiler = MultiFrameworkTranspiler
+from paperagent.synthesizer.ablation import AblationGenerator, design_ablation_study
+from paperagent.synthesizer.hardware_estimator import HardwareEstimator, estimate_hardware_profile
+from paperagent.synthesizer.hf_adapter import synthesize_hf_adapter
 
 class CodeSynthesizer:
     """
@@ -38,3 +44,16 @@ class CodeSynthesizer:
             execution_result=None,
             jupyter_notebook_json=None
         )
+
+__all__ = [
+    "CodeSynthesizer",
+    "CodeGenerator",
+    "TestGenerator",
+    "ComplexityProfiler",
+    "CodeTranspiler",
+    "AblationGenerator",
+    "design_ablation_study",
+    "HardwareEstimator",
+    "estimate_hardware_profile",
+    "synthesize_hf_adapter",
+]

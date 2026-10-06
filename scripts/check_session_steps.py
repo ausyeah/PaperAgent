@@ -5,7 +5,7 @@ import httpx
 JULES_API_KEY = os.environ.get("JULES_API_KEY")
 HEADERS = {"x-goog-api-key": JULES_API_KEY}
 
-file_path = ".jules/active_sessions_v3.json" if os.path.exists(".jules/active_sessions_v3.json") else (".jules/active_sessions_v2.json" if os.path.exists(".jules/active_sessions_v2.json") else ".jules/active_sessions.json")
+file_path = ".jules/active_sessions_v4.json" if os.path.exists(".jules/active_sessions_v4.json") else (".jules/active_sessions_v3.json" if os.path.exists(".jules/active_sessions_v3.json") else (".jules/active_sessions_v2.json" if os.path.exists(".jules/active_sessions_v2.json") else ".jules/active_sessions.json"))
 with open(file_path, "r", encoding="utf-8") as f:
     tasks = json.load(f)
 

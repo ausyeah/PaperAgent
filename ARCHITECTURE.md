@@ -160,6 +160,46 @@ PaperAgent takes academic papers (from ArXiv IDs, URLs, or local PDFs), decompos
 * **File Structure:**
   - `paperagent/tui.py`: Interactive full-screen terminal UI powered by Rich.
 
+### 2.23 Module 23: `paperagent.synthesizer.ablation` (v0.4.0)
+* **File Structure:**
+  - `paperagent/synthesizer/ablation.py`: Designs systematic ablation studies removing/swapping model components with comparative execution harnesses (`AblationStudyResult`).
+
+### 2.24 Module 24: `paperagent.engine.survey` (v0.4.0)
+* **File Structure:**
+  - `paperagent/engine/survey.py`: Synthesizes hierarchical research taxonomies, chronological breakthrough milestones, and open challenge analyses (`LiteratureSurvey`).
+
+### 2.25 Module 25: `paperagent.synthesizer.hardware_estimator` (v0.4.0)
+* **File Structure:**
+  - `paperagent/synthesizer/hardware_estimator.py`: Calculates model parameter counts, KV-cache and training VRAM scaling across sequence lengths, and generates Optuna tuning scripts (`HardwareProfile`).
+
+### 2.26 Module 26: `paperagent.engine.meta_analysis` (v0.4.0)
+* **File Structure:**
+  - `paperagent/engine/meta_analysis.py`: Cross-examines empirical claims across multiple papers and computes consensus verdicts (`MetaAnalysisReport`).
+
+### 2.27 Module 27: `paperagent.export.environment` (v0.4.0)
+* **File Structure:**
+  - `paperagent/export/environment.py`: Packages hermetic reproduction bundles including Conda `environment.yml`, CUDA `Dockerfile`, pinned dependencies, and reproduction scripts (`EnvironmentBundle`).
+
+### 2.28 Module 28: `paperagent.engine.paper_qa` (v0.4.0)
+* **File Structure:**
+  - `paperagent/engine/paper_qa.py`: Grounded multi-turn conversational paper assistant attaching precise section titles, formula IDs, and source quotes (`QAResponse`).
+
+### 2.29 Module 29: `paperagent.export.audio_script` (v0.4.0)
+* **File Structure:**
+  - `paperagent/export/audio_script.py`: Synthesizes engaging two-host conversational academic podcast scripts (NotebookLM style) with timing and tone markers (`PodcastScript`).
+
+### 2.30 Module 30: `paperagent.synthesizer.hf_adapter` (v0.4.0)
+* **File Structure:**
+  - `paperagent/synthesizer/hf_adapter.py`: Synthesizes standard HuggingFace `PreTrainedModel` and `PretrainedConfig` wrappers for interoperability with Transformers (`HuggingFaceAdapterResult`).
+
+### 2.31 Module 31: `paperagent.engine.rebuttal` (v0.4.0)
+* **File Structure:**
+  - `paperagent/engine/rebuttal.py`: Synthesizes point-by-point author rebuttal responses to reviewer critiques with experiment action plans (`RebuttalLetter`).
+
+### 2.32 Module 32: `paperagent.storage.radar` (v0.4.0)
+* **File Structure:**
+  - `paperagent/storage/radar.py`: Monitors ArXiv daily feeds against user research watchlists and generates daily executive briefing reports (`DailyDigestReport`).
+
 ---
 
 ## 3. Data Flow & Shared Contracts

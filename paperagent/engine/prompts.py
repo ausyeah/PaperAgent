@@ -94,3 +94,76 @@ For each alignment, provide:
 
 Ensure the mapping is as accurate and detailed as possible.
 """
+
+SURVEY_PROMPT = """
+You are an expert AI research assistant. Your task is to provide a comprehensive literature survey based on the provided papers about {topic}.
+
+Based on the parsed papers provided, you need to synthesize a structured literature survey with the following:
+1. Taxonomy Tree: A hierarchical categorization of the papers based on their methods/approaches.
+2. Chronology: A timeline of key breakthroughs by year.
+3. Comparative Table: Compare models across supervision type, compute complexity, and primary benchmark.
+4. Open Challenges: Identify key unsolved problems in the research field.
+5. Survey Markdown: A comprehensive, narrative survey review in Markdown format.
+
+Input Papers:
+{papers_content}
+
+Return the output formatted strictly according to the requested JSON structure.
+"""
+
+META_ANALYSIS_PROMPT = """
+You are an expert AI meta-researcher analyzing multiple academic papers to establish a consensus on a specific topic.
+Your goal is to cross-examine claims and empirical findings across the provided papers.
+
+Topic: {topic}
+
+Papers Content:
+{papers_content}
+
+Based on the papers provided, please output a structured MetaAnalysisReport containing:
+1. `topic`: The topic being analyzed.
+2. `analyzed_papers`: A list of the titles of the papers analyzed.
+3. `claims`: A list of `ConsensusClaim` objects. For each claim, identify:
+   - `claim`: The specific technical hypothesis or claim.
+   - `supporting_papers`: Titles that substantiate the claim.
+   - `opposing_papers`: Titles that refute or contradict it.
+   - `consensus_verdict`: 'supported', 'contested', 'refuted', or 'insufficient_evidence'.
+   - `nuance_analysis`: Reconciling conditions or caveats.
+4. `overall_consensus_summary`: An executive summary of the empirical consensus in the literature.
+"""
+
+PAPER_QA_PROMPT = """
+You are an expert AI research assistant. Answer the following question about the provided academic paper context.
+
+Question: {query}
+
+Context from paper:
+{context}
+
+Please provide a concise, authoritative answer based ONLY on the context provided.
+Ground your answer by citing the section titles and relevant quotes where you found the information.
+If a specific formula is relevant, include its formula ID.
+"""
+
+AUTHOR_REBUTTAL_PROMPT = """
+You are the original author of an academic paper submitted to a top-tier machine learning conference (e.g., NeurIPS, ICLR, ICML).
+You have received peer review feedback, and your task is to draft a comprehensive, polite, and rigorous rebuttal letter addressing the reviewer's weaknesses and negative critiques.
+
+Paper Title: {paper_title}
+
+Critiques/Weaknesses to Address:
+{critiques}
+
+For each critique, you must draft a detailed rebuttal point containing:
+1. `reviewer_id`: An identifier for the reviewer (e.g., "Reviewer 1").
+2. `critique_summary`: A short summary of the reviewer's concern.
+3. `response_strategy`: The overall approach (e.g., 'Clarification', 'Additional Experiment', 'Theoretical Justification').
+4. `detailed_rebuttal`: The exact text of your response, with a polite, scholarly tone that acknowledges the feedback while defending the paper's merits.
+5. `proposed_new_experiments`: Concrete ablation or baseline additions to address the weakness.
+
+Return a structured RebuttalLetter that contains:
+- `paper_title`
+- `overall_strategy`: A high-level strategy for the whole rebuttal.
+- `points`: A list of the detailed rebuttal points.
+- `markdown_letter`: The compiled, full rebuttal letter ready for submission.
+"""
