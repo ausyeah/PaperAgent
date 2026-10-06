@@ -252,3 +252,139 @@ class SlideDeck(BaseModel):
     marp_markdown: str
     slide_count: int
 
+
+# ============================================================================
+# v0.4.0 Advanced Workstation Schemas
+# ============================================================================
+
+class AblationVariant(BaseModel):
+    """Ablation component variation."""
+    variant_name: str
+    modified_component: str
+    hypothesis: str
+    code_modification: str = ""
+    expected_impact: str = ""
+    metrics: Dict[str, float] = Field(default_factory=dict)
+
+
+class AblationStudyResult(BaseModel):
+    """Automated ablation study design and benchmark suite."""
+    paper_title: str
+    baseline_algorithm: str
+    variants: List[AblationVariant] = Field(default_factory=list)
+    ablation_harness_code: str = ""
+    insights_summary: str = ""
+
+
+class LiteratureSurvey(BaseModel):
+    """Systematic survey and related works synthesis."""
+    topic: str
+    taxonomy_tree: Dict[str, List[str]] = Field(default_factory=dict)
+    chronology: List[Dict[str, Any]] = Field(default_factory=list)
+    comparative_table: List[Dict[str, Any]] = Field(default_factory=list)
+    open_challenges: List[str] = Field(default_factory=list)
+    survey_markdown: str = ""
+
+
+class HardwareProfile(BaseModel):
+    """Hardware requirements and hyperparameter optimization profile."""
+    model_name: str
+    parameter_count_million: float = 0.0
+    vram_inference_mb: Dict[str, float] = Field(default_factory=dict)
+    vram_training_mb: Dict[str, float] = Field(default_factory=dict)
+    recommended_gpu: str = "NVIDIA RTX 4090 / A100"
+    optuna_hparam_search_code: str = ""
+
+
+class ConsensusClaim(BaseModel):
+    """Meta-analysis consensus claim across papers."""
+    claim: str
+    supporting_papers: List[str] = Field(default_factory=list)
+    opposing_papers: List[str] = Field(default_factory=list)
+    consensus_verdict: str = Field(default="supported", description="'supported', 'contested', 'refuted', 'insufficient_evidence'")
+    nuance_analysis: str = ""
+
+
+class MetaAnalysisReport(BaseModel):
+    """Multi-paper cross-validation and consensus meta-analysis."""
+    topic: str
+    analyzed_papers: List[str] = Field(default_factory=list)
+    claims: List[ConsensusClaim] = Field(default_factory=list)
+    overall_consensus_summary: str = ""
+
+
+class EnvironmentBundle(BaseModel):
+    """Hermetic reproduction environment and container bundle."""
+    paper_title: str
+    conda_yaml: str
+    dockerfile_cuda: str
+    requirements_txt: str
+    reproduction_script_sh: str
+    reproduction_script_ps1: str
+
+
+class GroundedCitation(BaseModel):
+    """Grounded paper citation in conversational QA."""
+    section_title: str
+    formula_id: Optional[str] = None
+    relevant_quote: str = ""
+
+
+class QAResponse(BaseModel):
+    """Grounded answer from conversational paper assistant."""
+    query: str
+    answer: str
+    citations: List[GroundedCitation] = Field(default_factory=list)
+    confidence_score: float = Field(default=0.9, ge=0.0, le=1.0)
+
+
+class PodcastDialogueTurn(BaseModel):
+    """Single turn in an academic dialogue script."""
+    speaker: str = Field(..., description="e.g. 'Host A (Curious)' or 'Host B (Expert)'")
+    speech: str
+    tone: str = "conversational"
+    timing_seconds: int = 15
+
+
+class PodcastScript(BaseModel):
+    """Engaging academic podcast script (NotebookLM style)."""
+    episode_title: str
+    hosts: List[str] = Field(default_factory=lambda: ["Alex (Explorer)", "Morgan (Specialist)"])
+    turns: List[PodcastDialogueTurn] = Field(default_factory=list)
+    total_duration_minutes: float = 0.0
+    audio_briefing_markdown: str = ""
+
+
+class HuggingFaceAdapterResult(BaseModel):
+    """HuggingFace PreTrainedModel wrapper synthesis."""
+    model_class_name: str
+    config_class_name: str
+    adapter_module_code: str
+    example_usage_code: str
+
+
+class RebuttalPoint(BaseModel):
+    """Point-by-point rebuttal response item."""
+    reviewer_id: str
+    critique_summary: str
+    response_strategy: str
+    detailed_rebuttal: str
+    proposed_new_experiments: List[str] = Field(default_factory=list)
+
+
+class RebuttalLetter(BaseModel):
+    """Academic conference author rebuttal letter."""
+    paper_title: str
+    overall_strategy: str
+    points: List[RebuttalPoint] = Field(default_factory=list)
+    markdown_letter: str = ""
+
+
+class DailyDigestReport(BaseModel):
+    """ArXiv daily radar and watchlist digest report."""
+    category_or_query: str
+    date: str
+    matched_papers: List[Dict[str, Any]] = Field(default_factory=list)
+    executive_briefing: str = ""
+
+
