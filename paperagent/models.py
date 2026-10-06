@@ -526,4 +526,24 @@ class InteractiveNotebookBundle(BaseModel):
     file_path: Optional[str] = None
 
 
+class BenchmarkEvaluationResult(BaseModel):
+    """End-to-end reproduction benchmark evaluation result."""
+    paper_name: str
+    reproduction_success: bool = True
+    execution_time_seconds: float = 0.0
+    throughput_samples_per_sec: float = 0.0
+    convergence_metric: Dict[str, float] = Field(default_factory=dict)
+    summary: str = ""
+
+
+class SpeedupComparisonResult(BaseModel):
+    """Cross-runtime speedup comparison result (PyTorch vs JAX vs Triton)."""
+    algorithm_name: str
+    framework_latencies_ms: Dict[str, float] = Field(default_factory=dict)
+    speedup_ratios: Dict[str, float] = Field(default_factory=dict)
+    fastest_framework: str = "triton"
+    efficiency_notes: str = ""
+
+
+
 
