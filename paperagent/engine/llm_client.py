@@ -17,13 +17,37 @@ class LLMClient:
         self.openai_api_key = settings.openai_api_key
         self.default_model = settings.default_model
 
-    def _get_mock_response(self, json_mode: bool, response_model: Optional[Type[BaseModel]] = None) -> str:
+    def _get_mock_response(self, json_mode: bool, response_model: Optional[Type[BaseModel]] = None, prompt: str = "") -> str:
         if response_model:
             schema = response_model.model_json_schema()
             mock_data = self._generate_mock_from_schema(schema)
             return json.dumps(mock_data)
         elif json_mode:
             return '{"mock": "response"}'
+        elif any(kw in prompt.lower() for kw in ["test suite", "pytest", "test"]):
+            return (
+                "import pytest\n"
+                "import numpy as np\n\n"
+                "def test_shape_checks():\n"
+                "    assert True\n\n"
+                "def test_numerical_stability():\n"
+                "    assert True\n"
+            )
+        elif any(kw in prompt.lower() for kw in ["python", "def ", "class ", "algorithm", "code"]):
+            algo_cls = "MomentumContrast" if "Momentum Contrast" in prompt else "PaperAlgorithm"
+            return (
+                "import numpy as np\n\n"
+                f"class {algo_cls}:\n"
+                "    \"\"\"Implementation of paper algorithm.\"\"\"\n"
+                "    def __init__(self, learning_rate: float = 0.01) -> None:\n"
+                "        self.learning_rate = learning_rate\n\n"
+                "    def fit(self, X: np.ndarray, y: np.ndarray) -> None:\n"
+                "        pass\n\n"
+                "    def predict(self, X: np.ndarray) -> np.ndarray:\n"
+                "        return np.zeros(X.shape[0])\n\n"
+                "if __name__ == '__main__':\n"
+                "    print('Demo')\n"
+            )
         else:
             return "This is a mock response because no API keys are configured."
 
@@ -134,7 +158,7 @@ class LLMClient:
 
     async def generate_async(self, prompt: str, system_prompt: Optional[str] = None, json_mode: bool = False, temperature: float = 0.2) -> str:
         if not self.gemini_api_key and not self.openai_api_key:
-            return self._get_mock_response(json_mode)
+            return self._get_mock_response(json_mode, prompt=prompt)
 
         max_retries = 3
         base_delay = 1.0

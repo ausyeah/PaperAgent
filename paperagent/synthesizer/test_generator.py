@@ -7,6 +7,8 @@ class TestGenerator:
     """
     Generates accompanying automated test suite with assertions verifying mathematical invariants, shape checks, and numerical stability.
     """
+    __test__ = False
+
     def __init__(self, llm_client: Optional[LLMClient] = None):
         self.llm_client = llm_client or LLMClient()
 
