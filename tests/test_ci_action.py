@@ -40,11 +40,16 @@ def test_generate_github_workflow(mock_paper_project: PaperProject):
     assert yaml_str.strip() != ""
 
     # Check that it's valid YAML
+    # We use yaml.safe_load, which might parse "on" as True depending on yaml version/loader
+    # PyYAML < 6 behaves differently from PyYAML >= 6 for boolean conversions.
+    # To be perfectly safe, we verify "on" or True is in the parsed dict keys
     parsed_yaml = yaml.safe_load(yaml_str)
 
-    assert "on" in parsed_yaml
-    assert "push" in parsed_yaml["on"]
-    assert "workflow_dispatch" in parsed_yaml["on"]
+    on_key = "on" if "on" in parsed_yaml else True if True in parsed_yaml else None
+    assert on_key is not None, "Could not find 'on' key in parsed YAML"
+
+    assert "push" in parsed_yaml[on_key]
+    assert "workflow_dispatch" in parsed_yaml[on_key]
 
     assert "jobs" in parsed_yaml
     assert "reproduce" in parsed_yaml["jobs"]
