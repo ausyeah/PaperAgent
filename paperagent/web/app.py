@@ -39,7 +39,7 @@ from paperagent.web.library_routes import register_library_routes
 app = FastAPI(
     title="PaperAgent API",
     description="AI-powered academic paper deep-reader and algorithm-to-code synthesizer",
-    version="0.1.0"
+    version="0.2.0"
 )
 
 app.add_middleware(

@@ -27,16 +27,30 @@ class PaperStorage:
         if db_path is None:
             db_path = Path.home() / ".paperagent" / "library.db"
 
-        self.db_path = Path(db_path)
-        self.db_path.parent.mkdir(parents=True, exist_ok=True)
+        str_path = str(db_path)
+        if str_path == ":memory:" or str_path.startswith("file:"):
+            self.db_path = str_path
+            self._is_uri = str_path.startswith("file:")
+            self._keepalive = self._get_connection()
+        else:
+            self.db_path = Path(db_path)
+            self.db_path.parent.mkdir(parents=True, exist_ok=True)
+            self._is_uri = False
+            self._keepalive = None
 
         self._init_db()
+
+
+    def _get_connection(self):
+        if self._is_uri:
+            return sqlite3.connect(str(self.db_path), uri=True)
+        return sqlite3.connect(str(self.db_path))
 
     def _init_db(self):
         """Create the necessary database tables if they do not exist."""
         conn = None
         try:
-            conn = sqlite3.connect(self.db_path)
+            conn = self._get_connection()
             cursor = conn.cursor()
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS papers (
@@ -89,7 +103,7 @@ class PaperStorage:
 
         conn = None
         try:
-            conn = sqlite3.connect(self.db_path)
+            conn = self._get_connection()
             cursor = conn.cursor()
             cursor.execute('''
                 INSERT OR REPLACE INTO papers (
@@ -132,7 +146,7 @@ class PaperStorage:
         """
         conn = None
         try:
-            conn = sqlite3.connect(self.db_path)
+            conn = self._get_connection()
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             cursor.execute('''
@@ -183,7 +197,7 @@ class PaperStorage:
         records = []
         conn = None
         try:
-            conn = sqlite3.connect(self.db_path)
+            conn = self._get_connection()
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
 
@@ -232,7 +246,7 @@ class PaperStorage:
         records = []
         conn = None
         try:
-            conn = sqlite3.connect(self.db_path)
+            conn = self._get_connection()
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
 
@@ -273,7 +287,7 @@ class PaperStorage:
         """
         conn = None
         try:
-            conn = sqlite3.connect(self.db_path)
+            conn = self._get_connection()
             cursor = conn.cursor()
             cursor.execute("DELETE FROM papers WHERE id = ?", (paper_id,))
             conn.commit()

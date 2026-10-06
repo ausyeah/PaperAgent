@@ -54,3 +54,7 @@ temp/
 .idea/
 *.swp
 *.swo
+
+# Local databases and Jules runtime state
+*.db
+.jules/

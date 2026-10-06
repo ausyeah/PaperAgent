@@ -17,11 +17,16 @@ from paperagent.storage import PaperStorage
 router = APIRouter(prefix="/api", tags=["library"])
 
 # Default DB Path
-DB_PATH = os.environ.get("PAPERAGENT_DB_PATH", "paperagent.db")
+_storage_instance: Optional[PaperStorage] = None
 
 def get_storage() -> PaperStorage:
     """Helper to instantiate PaperStorage."""
-    return PaperStorage(DB_PATH)
+    global _storage_instance
+    db_path = os.environ.get("PAPERAGENT_DB_PATH", None)
+    if _storage_instance is None or (_storage_instance and str(_storage_instance.db_path) != str(db_path or "")):
+        _storage_instance = PaperStorage(db_path) if db_path else PaperStorage()
+    return _storage_instance
+
 
 @router.get("/library", response_model=List[StoredPaperRecord])
 def list_library_papers(
@@ -33,9 +38,12 @@ def list_library_papers(
     """Retrieves a list of stored papers from the library."""
     try:
         storage = get_storage()
-        return storage.list_papers(limit=limit, offset=offset, tag=tag, q=q)
+        if q:
+            return storage.search_papers(query=q, limit=limit)
+        return storage.list_papers(limit=limit, offset=offset, tag=tag)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
+
 
 @router.post("/library", response_model=StoredPaperRecord)
 def save_library_paper(project: PaperProject):
