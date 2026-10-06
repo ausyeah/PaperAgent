@@ -38,11 +38,12 @@ from paperagent.web.library_routes import register_library_routes
 from paperagent.web.v3_routes import register_v3_routes
 from paperagent.web.v4_routes import register_v4_routes
 from paperagent.web.v5_routes import register_v5_routes
+from paperagent.web.v6_routes import register_v6_routes
 
 app = FastAPI(
     title="PaperAgent API",
     description="AI-powered academic paper deep-reader and algorithm-to-code synthesizer",
-    version="0.5.0"
+    version="0.6.0"
 )
 
 app.add_middleware(
@@ -267,6 +268,7 @@ register_library_routes(app)
 register_v3_routes(app)
 register_v4_routes(app)
 register_v5_routes(app)
+register_v6_routes(app)
 
 # Mount static directory if present
 static_dir = os.path.join(os.path.dirname(__file__), "static")

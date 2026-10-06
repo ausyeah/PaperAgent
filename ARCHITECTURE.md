@@ -256,6 +256,66 @@ PaperAgent takes academic papers (from ArXiv IDs, URLs, or local PDFs), decompos
 * **File Structure:**
   - `paperagent/engine/speedup_comparator.py`: Cross-runtime speedup comparator benchmarking latency and throughput across PyTorch eager, JAX JIT, and Triton GPU kernels (`SpeedupComparisonResult`).
 
+### 2.47 Module 47: `paperagent.engine.hypothesis` (v0.6.0)
+* **File Structure:**
+  - `paperagent/engine/hypothesis.py`: Scientific hypothesis generator predicting follow-up research questions, novel architectures, and experimental falsification protocols (`HypothesisCollection`).
+
+### 2.48 Module 48: `paperagent.runner.self_debugger` (v0.6.0)
+* **File Structure:**
+  - `paperagent/runner/self_debugger.py`: Execution-feedback self-healing loop that iterates on runtime tracebacks, syntax errors, and shape mismatches to heal broken code (`SelfHealingDebugSession`).
+
+### 2.49 Module 49: `paperagent.engine.gradient_verifier` (v0.6.0)
+* **File Structure:**
+  - `paperagent/engine/gradient_verifier.py`: Finite difference numerical gradient checker verifying custom autograd operations against analytical PyTorch gradients (`GradientCheckResult`).
+
+### 2.50 Module 50: `paperagent.synthesizer.memory_tracer` (v0.6.0)
+* **File Structure:**
+  - `paperagent/synthesizer/memory_tracer.py`: Peak memory profiler and allocation snapshot engine profiling forward/backward memory allocations (`MemoryTraceProfile`).
+
+### 2.51 Module 51: `paperagent.engine.evolutionary_search` (v0.6.0)
+* **File Structure:**
+  - `paperagent/engine/evolutionary_search.py`: Evolutionary Neural Architecture Search (NAS) engine mutating paper model topologies across width, depth, and activation spaces (`EvolutionarySearchResult`).
+
+### 2.52 Module 52: `paperagent.parser.figure_describer` (v0.6.0)
+* **File Structure:**
+  - `paperagent/parser/figure_describer.py`: Architecture diagram and figure caption deconstructor producing computational DAGs with nodes and directed dataflow edges (`FigureSemanticGraph`).
+
+### 2.53 Module 53: `paperagent.parser.math_normalizer` (v0.6.0)
+* **File Structure:**
+  - `paperagent/parser/math_normalizer.py`: LaTeX math canonicalizer normalizing equations, stripping LaTeX idiosyncrasies, and producing SymPy-compatible expressions (`MathNormalizationCollection`).
+
+### 2.54 Module 54: `paperagent.engine.multi_paper_synthesizer` (v0.6.0)
+* **File Structure:**
+  - `paperagent/engine/multi_paper_synthesizer.py`: Cross-paper algorithm fusion engine synthesizing novel hybrid architectures combining orthogonal innovations (`FusedAlgorithmSynthesis`).
+
+### 2.55 Module 55: `paperagent.storage.leaderboard` (v0.6.0)
+* **File Structure:**
+  - `paperagent/storage/leaderboard.py`: SOTA saturation tracker and academic benchmark leaderboard extractor comparing paper metrics against canonical baselines (`LeaderboardSnapshot`).
+
+### 2.56 Module 56: `paperagent.export.poster` (v0.6.0)
+* **File Structure:**
+  - `paperagent/export/poster.py`: Academic conference poster HTML/CSS bundle generator synthesizing 3-column responsive printable posters (`AcademicPosterBundle`).
+
+### 2.57 Module 57: `paperagent.export.onnx_exporter` (v0.6.0)
+* **File Structure:**
+  - `paperagent/export/onnx_exporter.py`: Production ONNX export script and TensorRT compilation engine builder (`ONNXExportBundle`).
+
+### 2.58 Module 58: `paperagent.synthesizer.distributed_launcher` (v0.6.0)
+* **File Structure:**
+  - `paperagent/synthesizer/distributed_launcher.py`: Multi-GPU PyTorch DDP, FSDP, and Slurm cluster batch launch script generator (`DistributedLaunchBundle`).
+
+### 2.59 Module 59: `paperagent.engine.semantic_diff` (v0.6.0)
+* **File Structure:**
+  - `paperagent/engine/semantic_diff.py`: Versioned paper semantic diff engine detecting architectural modifications, metric improvements, and conceptual shifts between paper iterations (`PaperSemanticDiff`).
+
+### 2.60 Module 60: `paperagent.runner.experiment_runner` (v0.6.0)
+* **File Structure:**
+  - `paperagent/runner/experiment_runner.py`: Multi-configuration hyperparameter grid search experiment sweep runner with isolated execution and metric aggregation (`ExperimentSweepResult`).
+
+### 2.61 Module 61: `paperagent.web.v6_routes` (v0.6.0)
+* **File Structure:**
+  - `paperagent/web/v6_routes.py`: 15 REST endpoints exposing all v0.6.0 capabilities to the interactive Web UI and programmatic clients.
+
 ---
 
 ## 3. Data Flow & Shared Contracts
@@ -267,8 +327,9 @@ All modules share data models defined in `paperagent/models.py`.
 
 ## 4. Testing & Code Quality
 - All unit tests live in `tests/`.
-- Every subpackage should have dedicated test coverage.
-- Run tests via `pytest -v` (216/216 passing 100%).
+- Every subpackage has dedicated test coverage.
+- Run tests via `pytest -v` (270+ passing 100%).
+
 
 
 

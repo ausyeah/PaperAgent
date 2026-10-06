@@ -14,6 +14,11 @@ from paperagent.engine.committee import PeerReviewCommittee
 from paperagent.engine.derivation import DerivationVerifier
 from paperagent.engine.scorecard import ReproducibilityEvaluator, evaluate_reproducibility
 from paperagent.engine.speedup_comparator import SpeedupComparator
+from paperagent.engine.hypothesis import ScientificHypothesisGenerator, generate_hypotheses
+from paperagent.engine.gradient_verifier import GradientVerifier
+from paperagent.engine.evolutionary_search import EvolutionaryArchitectureSearch
+from paperagent.engine.multi_paper_synthesizer import CrossPaperFusionSynthesizer
+from paperagent.engine.semantic_diff import PaperSemanticDiffEngine, diff_papers
 from paperagent.engine.llm_client import LLMClient
 from paperagent.engine.prompts import (
     EXECUTIVE_SUMMARY_PROMPT,
@@ -28,6 +33,9 @@ from paperagent.engine.prompts import (
     COMMITTEE_REVIEW_PROMPT,
     REPRODUCIBILITY_SCORECARD_PROMPT,
     DERIVATION_VERIFIER_PROMPT,
+    HYPOTHESIS_GENERATOR_PROMPT,
+    CROSS_PAPER_FUSION_PROMPT,
+    SEMANTIC_DIFF_PROMPT,
 )
 from paperagent.models import ParsedPaper, AnalysisReport
 
@@ -58,6 +66,13 @@ __all__ = [
     "ReproducibilityEvaluator",
     "evaluate_reproducibility",
     "SpeedupComparator",
+    "ScientificHypothesisGenerator",
+    "generate_hypotheses",
+    "GradientVerifier",
+    "EvolutionaryArchitectureSearch",
+    "CrossPaperFusionSynthesizer",
+    "PaperSemanticDiffEngine",
+    "diff_papers",
     "analyze_paper",
     "LLMClient",
     "EXECUTIVE_SUMMARY_PROMPT",
@@ -72,4 +87,7 @@ __all__ = [
     "COMMITTEE_REVIEW_PROMPT",
     "REPRODUCIBILITY_SCORECARD_PROMPT",
     "DERIVATION_VERIFIER_PROMPT",
+    "HYPOTHESIS_GENERATOR_PROMPT",
+    "CROSS_PAPER_FUSION_PROMPT",
+    "SEMANTIC_DIFF_PROMPT",
 ]

@@ -17,6 +17,8 @@ from paperagent.parser.arxiv import (
 from paperagent.parser.mineru_adapter import parse_with_mineru
 from paperagent.parser.pdf_extractor import extract_from_pdf
 from paperagent.parser.table_extractor import TableExtractor
+from paperagent.parser.figure_describer import FigureDeconstructor
+from paperagent.parser.math_normalizer import MathNormalizer
 
 
 def parse_paper(source: str) -> ParsedPaper:
@@ -68,4 +70,6 @@ __all__ = [
     "fetch_arxiv_metadata",
     "download_arxiv_pdf",
     "TableExtractor",
+    "FigureDeconstructor",
+    "MathNormalizer",
 ]

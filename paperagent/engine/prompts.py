@@ -228,4 +228,67 @@ Please provide a rigorous step-by-step verification:
 Return the output formatted strictly according to the requested JSON structure for DerivationVerificationResult.
 """
 
+HYPOTHESIS_GENERATOR_PROMPT = """
+You are an expert AI research scientist and automated scientific hypothesis generator.
+Your task is to analyze an academic paper and propose 3-5 concrete algorithmic mutations or research hypotheses based on its limitations, mathematical formulations, and empirical baselines.
+
+Paper Content:
+{paper_content}
+
+For each hypothesis, provide:
+1. `hypothesis_id`: A unique identifier (e.g., "hyp-1").
+2. `title`: A concise title for the hypothesis.
+3. `rationale`: The reasoning behind the hypothesis based on the paper's content.
+4. `proposed_modification`: The concrete algorithmic or mathematical change.
+5. `expected_gain`: The anticipated improvement (e.g., faster convergence, reduced memory).
+6. `feasibility_score`: A score between 0.0 and 1.0 indicating how likely the hypothesis is to succeed.
+7. `validation_protocol`: The experimental setup to test the hypothesis.
+
+Return a structured HypothesisCollection object containing the list of ResearchHypotheses and a strategic summary.
+"""
+
+CROSS_PAPER_FUSION_PROMPT = """
+You are an expert AI research scientist and algorithms engineer.
+Your task is to synthesize a novel hybrid algorithm that fuses the complementary strengths of two distinct academic papers.
+
+Paper A Content:
+{paper_a_content}
+
+Paper B Content:
+{paper_b_content}
+
+Your goal is to identify a complementary mechanism (e.g., combining Paper A's state space model with Paper B's attention mechanism) and generate a self-contained, runnable Python implementation.
+You must return a HybridSynthesisResult containing:
+1. `source_paper_a`: Title of Paper A
+2. `source_paper_b`: Title of Paper B
+3. `hybrid_algorithm_name`: A creative and descriptive name for the new hybrid algorithm.
+4. `fusion_rationale`: An explanation of why combining these two methods is theoretically sound and practically beneficial.
+5. `hybrid_code`: A robust, self-contained Python script implementing the hybrid algorithm using PyTorch.
+6. `test_suite_code`: A PyTest test suite that verifies the mathematical invariants, forward pass, and shape correctness of the hybrid algorithm.
+"""
+
+SEMANTIC_DIFF_PROMPT = """
+You are an expert AI researcher tasked with deeply comparing two versions of an academic paper.
+Your goal is to provide a structured semantic diff of the changes between version 1 (v1) and version 2 (v2).
+
+Version 1 (v1) Content:
+{paper_v1_content}
+
+Version 2 (v2) Content:
+{paper_v2_content}
+
+Please evaluate and compare the two paper versions and identify all significant changes.
+Return a structured PaperSemanticDiff that contains:
+- `paper_title`: The title of the paper.
+- `v1_identifier` and `v2_identifier`: The versions being compared.
+- A list of `diff_items` detailing the itemized changes. For each item:
+  - `section_title`: The title of the section where the change occurred.
+  - `change_type`: 'added', 'removed', or 'modified'.
+  - `v1_summary`: A summary of the content in v1 (or empty if added).
+  - `v2_summary`: A summary of the content in v2 (or empty if removed).
+  - `significance`: The significance of the change (e.g., 'Low', 'Medium', 'High').
+- `executive_diff_summary`: A high-level executive summary of the overall evolution and semantic changes from v1 to v2.
+"""
+
+
 

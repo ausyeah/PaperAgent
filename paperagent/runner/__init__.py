@@ -1,5 +1,7 @@
 from .sandbox import ExecutionSandbox
 from .streaming import StreamingSandboxRunner
+from .self_debugger import SelfHealingDebugger
+from .experiment_runner import ExperimentMatrixRunner
 from paperagent.models import ExecutionResult
 from paperagent.config import settings
 
@@ -10,4 +12,10 @@ def execute_code(code: str, timeout: int = None) -> ExecutionResult:
     sandbox = ExecutionSandbox()
     return sandbox.run_code(code, timeout=timeout)
 
-__all__ = ["ExecutionSandbox", "StreamingSandboxRunner", "execute_code"]
+__all__ = [
+    "ExecutionSandbox",
+    "StreamingSandboxRunner",
+    "SelfHealingDebugger",
+    "ExperimentMatrixRunner",
+    "execute_code",
+]

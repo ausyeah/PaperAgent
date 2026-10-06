@@ -10,6 +10,8 @@ from .graph_view import export_citation_graph_html
 from .sync_bot import create_reproduction_sync_bundle
 from .tts_pipeline import generate_ssml_podcast_bundle
 from .interactive_notebook import export_interactive_notebook
+from .poster import AcademicPosterGenerator
+from .onnx_exporter import ONNXExportGenerator
 
 __all__ = [
     "export_markdown",
@@ -29,4 +31,6 @@ __all__ = [
     "create_reproduction_sync_bundle",
     "generate_ssml_podcast_bundle",
     "export_interactive_notebook",
+    "AcademicPosterGenerator",
+    "ONNXExportGenerator",
 ]

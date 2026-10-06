@@ -350,3 +350,52 @@ function renderPodcast(podcastData) {
     document.getElementById('podcastContent').innerHTML = html;
 }
 
+/**
+ * Renders the AI Scientist Hypotheses tab content.
+ * @param {Object} hypothesesData - The hypotheses data object.
+ */
+function renderHypotheses(hypothesesData) {
+    if (!hypothesesData) {
+        document.getElementById('tab-hypotheses').innerHTML = '<p style="color: var(--text-muted); text-align: center; margin-top: 2rem;">No AI Scientist Hypotheses available.</p>';
+        return;
+    }
+    
+    const preElement = document.createElement('pre');
+    preElement.textContent = JSON.stringify(hypothesesData, null, 2);
+    document.getElementById('tab-hypotheses').innerHTML = '<div style="padding: 1rem;"></div>';
+    document.getElementById('tab-hypotheses').firstElementChild.appendChild(preElement);
+}
+
+/**
+ * Renders the Self-Healing Debugger tab content.
+ * @param {Object} healingData - The healing data object.
+ */
+function renderSelfHealing(healingData) {
+    if (!healingData) {
+        document.getElementById('tab-debugger').innerHTML = '<p style="color: var(--text-muted); text-align: center; margin-top: 2rem;">No Self-Healing Debugger data available.</p>';
+        return;
+    }
+    
+    const preElement = document.createElement('pre');
+    preElement.textContent = JSON.stringify(healingData, null, 2);
+    document.getElementById('tab-debugger').innerHTML = '<div style="padding: 1rem;"></div>';
+    document.getElementById('tab-debugger').firstElementChild.appendChild(preElement);
+}
+
+/**
+ * Renders the Conference Poster tab content.
+ * @param {Object} posterData - The poster data object.
+ */
+function renderPoster(posterData) {
+    if (!posterData) {
+        document.getElementById('tab-poster').innerHTML = '<p style="color: var(--text-muted); text-align: center; margin-top: 2rem;">No Conference Poster available.</p>';
+        return;
+    }
+    
+    const preElement = document.createElement('pre');
+    preElement.textContent = JSON.stringify(posterData, null, 2);
+    document.getElementById('tab-poster').innerHTML = '<div style="padding: 1rem;"></div>';
+    document.getElementById('tab-poster').firstElementChild.appendChild(preElement);
+}
+
+

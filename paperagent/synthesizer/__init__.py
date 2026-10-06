@@ -11,6 +11,8 @@ from paperagent.synthesizer.hf_adapter import synthesize_hf_adapter
 from paperagent.synthesizer.kernel import TritonKernelSynthesizer
 from paperagent.synthesizer.dataset_gen import SyntheticDatasetGenerator
 from paperagent.synthesizer.quantizer import QuantizationProfiler
+from paperagent.synthesizer.memory_tracer import MemoryTracer
+from paperagent.synthesizer.distributed_launcher import DistributedLaunchGenerator
 
 class CodeSynthesizer:
     """
@@ -62,4 +64,6 @@ __all__ = [
     "TritonKernelSynthesizer",
     "SyntheticDatasetGenerator",
     "QuantizationProfiler",
+    "MemoryTracer",
+    "DistributedLaunchGenerator",
 ]
