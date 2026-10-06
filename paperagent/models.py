@@ -545,5 +545,237 @@ class SpeedupComparisonResult(BaseModel):
     efficiency_notes: str = ""
 
 
+# ============================================================================
+# v0.6.0 Autonomous AI Scientist & Self-Evolving Algorithm Lab Schemas
+# ============================================================================
+
+class ResearchHypothesis(BaseModel):
+    """Autonomous algorithmic mutation and research hypothesis."""
+    hypothesis_id: str
+    title: str
+    rationale: str
+    proposed_modification: str
+    expected_gain: str
+    feasibility_score: float = Field(default=0.8, ge=0.0, le=1.0)
+    validation_protocol: str = ""
+
+
+class HypothesisCollection(BaseModel):
+    """Collection of generated scientific research hypotheses."""
+    paper_title: str
+    hypotheses: List[ResearchHypothesis] = Field(default_factory=list)
+    strategic_summary: str = ""
+
+
+class SelfHealingPatch(BaseModel):
+    """Single diagnostic fix step in autonomous code healing."""
+    iteration: int
+    error_type: str
+    error_message: str
+    diagnosis: str
+    patch_applied: str
+
+
+class SelfHealingResult(BaseModel):
+    """Result of multi-iteration autonomous execution self-healing."""
+    success: bool
+    iterations_run: int
+    patches: List[SelfHealingPatch] = Field(default_factory=list)
+    final_code: str
+    final_stdout: str = ""
+    final_stderr: str = ""
+
+
+class GradientCheckItem(BaseModel):
+    """Individual numerical vs analytical gradient verification entry."""
+    parameter_name: str
+    analytical_grad_norm: float
+    numerical_grad_norm: float
+    relative_difference: float
+    is_differentiable: bool = True
+
+
+class GradientVerificationReport(BaseModel):
+    """Autograd differentiation and numerical gradient verification report."""
+    module_name: str
+    checks: List[GradientCheckItem] = Field(default_factory=list)
+    all_passed: bool = True
+    gradient_health: str = "Healthy"
+    summary_notes: str = ""
+
+
+class MemoryAllocationEvent(BaseModel):
+    """Tensor memory allocation event in execution trace."""
+    operation_name: str
+    allocated_mb: float
+    peak_mb: float
+    notes: str = ""
+
+
+class MemoryTraceProfile(BaseModel):
+    """CUDA/CPU peak memory profile and allocation snapshot."""
+    module_name: str
+    peak_memory_mb: float
+    activation_memory_mb: float
+    parameter_memory_mb: float
+    events: List[MemoryAllocationEvent] = Field(default_factory=list)
+    memory_efficiency_verdict: str = "Optimal"
+    optimization_recommendations: List[str] = Field(default_factory=list)
+
+
+class CandidateArchitecture(BaseModel):
+    """Candidate architecture evaluated during evolutionary search."""
+    candidate_id: str
+    topology_summary: str
+    parameter_count_m: float
+    simulated_accuracy: float
+    latency_ms: float
+    pareto_optimal: bool = False
+
+
+class EvolutionarySearchResult(BaseModel):
+    """Evolutionary neural architecture and operator search result."""
+    base_algorithm: str
+    generations_evaluated: int
+    candidates: List[CandidateArchitecture] = Field(default_factory=list)
+    best_candidate_id: str
+    evolutionary_insights: str = ""
+
+
+class FigureNode(BaseModel):
+    """Node in parsed academic diagram DAG."""
+    node_id: str
+    label: str
+    node_type: str = "operator"
+
+
+class FigureEdge(BaseModel):
+    """Directed connection in diagram DAG."""
+    source_id: str
+    target_id: str
+    tensor_flow_desc: str = ""
+
+
+class FigureSemanticGraph(BaseModel):
+    """Semantic graph deconstructed from an academic paper figure."""
+    figure_id: str
+    caption: str = ""
+    nodes: List[FigureNode] = Field(default_factory=list)
+    edges: List[FigureEdge] = Field(default_factory=list)
+    synthesized_code_stub: str = ""
+
+
+class CanonicalMathExpression(BaseModel):
+    """Canonicalized mathematical expression converted into SymPy."""
+    original_latex: str
+    canonical_sympy: str
+    symbols: List[str] = Field(default_factory=list)
+    is_solvable: bool = True
+
+
+class MathNormalizationCollection(BaseModel):
+    """Collection of normalized mathematical expressions."""
+    paper_title: str
+    expressions: List[CanonicalMathExpression] = Field(default_factory=list)
+
+
+class HybridSynthesisResult(BaseModel):
+    """Synthesized hybrid algorithm fusing innovations from multiple papers."""
+    source_paper_a: str
+    source_paper_b: str
+    hybrid_algorithm_name: str
+    fusion_rationale: str
+    hybrid_code: str
+    test_suite_code: str
+
+
+class BenchmarkMetricRecord(BaseModel):
+    """Record on academic benchmark leaderboard."""
+    benchmark_name: str
+    sota_score: float
+    paper_score: float
+    relative_gap_pct: float
+    is_new_sota: bool = False
+
+
+class LeaderboardSnapshot(BaseModel):
+    """Historical and current benchmark leaderboard trajectory."""
+    paper_title: str
+    metrics: List[BenchmarkMetricRecord] = Field(default_factory=list)
+    saturation_verdict: str = "Active Competition"
+
+
+class PosterSection(BaseModel):
+    """Section content for academic conference poster."""
+    title: str
+    content_html: str
+    order: int
+
+
+class AcademicPosterBundle(BaseModel):
+    """Responsive high-resolution academic conference poster bundle."""
+    paper_title: str
+    authors: List[str] = Field(default_factory=list)
+    sections: List[PosterSection] = Field(default_factory=list)
+    standalone_poster_html: str = ""
+
+
+class ONNXExportBundle(BaseModel):
+    """ONNX and TensorRT compilation script bundle."""
+    model_name: str
+    onnx_export_script_py: str
+    tensorrt_builder_script_py: str
+    opset_version: int = 17
+    simplification_instructions: str = ""
+
+
+class DistributedLaunchBundle(BaseModel):
+    """Multi-GPU PyTorch DDP / FSDP distributed launcher bundle."""
+    model_name: str
+    ddp_launcher_script_py: str
+    fsdp_config_yaml: str
+    slurm_batch_script_sh: str
+    recommended_world_size: int = 8
+
+
+class SemanticDiffItem(BaseModel):
+    """Itemized difference between paper revisions."""
+    section_title: str
+    change_type: str = "modified"  # 'added', 'removed', 'modified'
+    v1_summary: str = ""
+    v2_summary: str = ""
+    significance: str = "Medium"
+
+
+class PaperSemanticDiff(BaseModel):
+    """Semantic evolution diff between paper versions (e.g. v1 vs v2)."""
+    paper_title: str
+    v1_identifier: str = "v1"
+    v2_identifier: str = "v2"
+    diff_items: List[SemanticDiffItem] = Field(default_factory=list)
+    executive_diff_summary: str = ""
+
+
+class ExperimentRunRecord(BaseModel):
+    """Single run in an autonomous experiment matrix."""
+    run_id: str
+    seed: int
+    hyperparameters: Dict[str, Any] = Field(default_factory=dict)
+    final_metric: float
+    duration_seconds: float
+    status: str = "COMPLETED"
+
+
+class ExperimentMatrixResult(BaseModel):
+    """Result of grid/random autonomous experiment sweep."""
+    matrix_name: str
+    total_runs: int
+    runs: List[ExperimentRunRecord] = Field(default_factory=list)
+    best_run_id: str
+    aggregate_statistics: Dict[str, float] = Field(default_factory=dict)
+    ascii_summary: str = ""
+
+
+
 
 
