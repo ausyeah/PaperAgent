@@ -47,3 +47,27 @@ Paper Content:
 
 Return the output strictly according to the requested structure.
 """
+
+COMPARATOR_PROMPT = """
+You are an expert AI researcher tasked with deeply comparing two academic papers.
+Your goal is to provide a structured, head-to-head evaluation.
+
+Paper A Content:
+{paper_a_content}
+
+Paper B Content:
+{paper_b_content}
+
+Please evaluate and compare the two papers across the following key dimensions:
+1. Inductive Bias & Core Approach
+2. Mathematical Formulation
+3. Computational Complexity (Time & Memory)
+4. Empirical Benchmarks & Datasets
+5. Practical Deployment & Hardware Requirements
+
+Return a structured ComparisonMatrix that contains:
+- paper_a_title and paper_b_title
+- A list of `dimensions` detailing the comparison for the above 5 criteria.
+- `trade_off_summary`: A brief summary of fundamental engineering trade-offs.
+- `recommended_choice`: Actionable guidance on which to use in which scenarios.
+"""
